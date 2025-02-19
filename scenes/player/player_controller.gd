@@ -1,5 +1,8 @@
 extends CharacterBody2D
 
+enum State {NORMAL, GRAPPLE}
+
+var player_state: State = State.NORMAL
 
 var SPEED: float = 100.0
 var MAX_SPEED: float = 300.0
@@ -11,18 +14,25 @@ var GRAPPLE_ANGLE: float = 0
 
 const DEBUG_DRAW: bool = false
 
-var is_grappling: bool = false
 var facing_left: bool = false
 var grapple_pos : Vector2
 
 func _physics_process(delta):
+	match player_state:
+		State.NORMAL:
+			_physics_process_normal(delta)
+		State.GRAPPLE:
+			_physics_process_grapple(delta)  
+	
+# -------------------------------
+# ------ PHYSICS PROCESSES ------
+# -------------------------------
+
+func _physics_process_normal(delta):
 	var direction = Input.get_axis("ui_left", "ui_right")
 	
 	if Input.is_action_just_pressed("grapple"):
-		if is_grappling:
-			is_grappling = false
-		else:
-			create_grapple()
+		create_grapple()
 	
 	if Input.is_action_just_pressed("dash"):
 		velocity.x += 1000 * direction
@@ -31,28 +41,46 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	
-	if not is_grappling:
-		# Handle jump.
-		if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-			velocity.y = JUMP_VELOCITY
+	# Handle jump.
+	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+		velocity.y = JUMP_VELOCITY
 
-		if direction != 0:
-			if (facing_left and direction>0):
-				face(false)
-			elif (not facing_left and direction<0):
-				face(true)
-			
-			if abs(velocity.x) < (MAX_SPEED-abs(velocity.x)):
-				velocity.x += direction * SPEED
-			elif abs(velocity.x) < (MAX_SPEED):
-				velocity.x = direction * MAX_SPEED
-
-		velocity.x = move_toward(velocity.x, 0, FRICTION)
-	elif is_grappling:
-		project_velocity()
+	if direction != 0:
+		if (facing_left and direction>0):
+			face(false)
+		elif (not facing_left and direction<0):
+			face(true)
+		
+		if abs(velocity.x) < (MAX_SPEED-abs(velocity.x)):
+			velocity.x += direction * SPEED
+		elif abs(velocity.x) < (MAX_SPEED):
+			velocity.x = direction * MAX_SPEED
+	
+	velocity.x = move_toward(velocity.x, 0, FRICTION)
 	
 	move_and_slide()
 	queue_redraw()
+
+	
+func _physics_process_grapple(delta):
+	var direction = Input.get_axis("ui_left", "ui_right")
+	
+	if Input.is_action_just_pressed("grapple"):
+		player_state = State.NORMAL
+	
+	if Input.is_action_just_pressed("dash"):
+		velocity.x += 1000 * direction
+	
+	# Add the gravity.
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+	
+	project_velocity()
+	move_and_slide()
+	queue_redraw()
+
+
+
 
 func create_grapple():
 	var space_state = get_world_2d().direct_space_state
@@ -64,8 +92,8 @@ func create_grapple():
 		return
 	
 	grapple_pos = result.position
-	is_grappling = true
-	
+	player_state = State.GRAPPLE
+
 	project_velocity()
 	velocity *= GRAPPLE_BOOST
 
@@ -97,7 +125,7 @@ func face(left: bool):
 	$Sprite2D.flip_h = left
 
 func _draw():
-	if is_grappling:
+	if player_state == State.GRAPPLE:
 		draw_line(Vector2(0,0), to_local(grapple_pos), Color.BLACK, 2)
 	else:
 		draw_line(Vector2(0,0), Vector2(0, -GRAPPLE_RANGE).rotated(GRAPPLE_ANGLE * (-1 if facing_left else 1)), Color.GRAY, 2)
@@ -107,7 +135,7 @@ func _draw():
 		draw_line(Vector2(0, 0), Vector2(0, velocity.y/5), Color.RED, 2)
 		draw_line(Vector2(0, 0), velocity/5, Color.BLUE, 2)
 		
-		if is_grappling:
+		if player_state == State.GRAPPLE:
 			var offset_pos: Vector2 = position - grapple_pos
 			var tangent = Vector2(offset_pos.x + 1, offset_pos.y-(offset_pos.x/offset_pos.y)) - offset_pos
 
