@@ -10,10 +10,10 @@ config_version=5
 
 [application]
 
-config/name="Platformer"
+config/name="Spell Hook"
 run/main_scene="res://scenes/game/game.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="uid://buxfnvo7svcq5"
 
 [display]
 
