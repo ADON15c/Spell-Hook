@@ -2,24 +2,39 @@ extends CharacterBody2D
 
 enum State {NORMAL, GRAPPLE}
 
+
+# ----------------------------------------
+# ------ MEMBER VARIABLES/CONSTANTS ------
+# ----------------------------------------
+
 var player_state: State = State.NORMAL
 
-var RUN_ACCEL: float = 1800.0  # Run acceleration speed. Also acts as decceleration speed when changing direction
-var RUN_REDUCE: float = 800.0  # Speed reduction from going over RUN_MAX
-var RUN_MAX: float = 200.0     # Max speed from running
+var RUN_ACCEL: float = 2700.0     # Run acceleration speed. Also acts as decceleration speed when changing direction
+var RUN_REDUCE: float = 1350.0    # Speed reduction from going over RUN_MAX
+var RUN_MAX: float = 325.0        # Max speed from running
 
-var GRAVITY: float = 1200.0    # How fast falling speed increases
-var MAX_FALL: float = 600.0    # Max falling speed
+var GRAVITY: float = 2000.0       # How fast falling speed increases
+var MAX_FALL: float = 1000.0      # Max falling speed
+var JUMP_VELOCITY: float = -700.0 # Velocity Applied on Jump
 
-var JUMP_VELOCITY: float = -400.0
-var GRAPPLE_RANGE: float = 300.0
-var GRAPPLE_BOOST: float = 2.5
-var GRAPPLE_ANGLE: float = 0
+var GRAPPLE_RANGE: float = 500.0  # Grapple Hook Range
+var GRAPPLE_BOOST: float = 2.5    # velocity multiplier from starting grapple
 
 const DEBUG_DRAW: bool = false
 
 var facing_left: bool = false
-var grapple_pos : Vector2
+var grapple_pos: Vector2
+var grapple_angle: float = 0
+var grapple_angle_fixed: bool = false
+
+func _process(delta):
+	if not grapple_angle_fixed:
+		var input_dir = Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down"))
+		grapple_angle = input_dir.angle()
+
+# -------------------------------
+# ------ PHYSICS PROCESSES ------
+# -------------------------------
 
 func _physics_process(delta):
 	match player_state:
@@ -27,10 +42,7 @@ func _physics_process(delta):
 			_physics_process_normal(delta)
 		State.GRAPPLE:
 			_physics_process_grapple(delta)  
-	
-# -------------------------------
-# ------ PHYSICS PROCESSES ------
-# -------------------------------
+
 
 func _physics_process_normal(delta):
 	if Input.is_action_just_pressed("grapple"):
@@ -61,7 +73,7 @@ func _physics_process_normal(delta):
 	move_and_slide()
 	queue_redraw()
 
-	
+
 func _physics_process_grapple(delta):
 	if Input.is_action_just_pressed("grapple"):
 		player_state = State.NORMAL
@@ -75,12 +87,14 @@ func _physics_process_grapple(delta):
 	queue_redraw()
 
 
-
+# ---------------------------
+# ------ GRAPPLE STUFF ------
+# ---------------------------
 
 func create_grapple():
 	var space_state = get_world_2d().direct_space_state
 	# use global coordinates, not local to node
-	var query = PhysicsRayQueryParameters2D.create(to_global(Vector2(0, 0)), to_global(Vector2(0, -GRAPPLE_RANGE).rotated(GRAPPLE_ANGLE * (-1 if facing_left else 1))))
+	var query = PhysicsRayQueryParameters2D.create(to_global(Vector2(0, 0)), to_global(Vector2(GRAPPLE_RANGE, 0).rotated(grapple_angle)))
 	var result = space_state.intersect_ray(query)
 	
 	if result.is_empty():
@@ -92,20 +106,6 @@ func create_grapple():
 	project_velocity()
 	velocity *= GRAPPLE_BOOST
 
-#func project_velocity():
-	#var offset_pos = position - grapple_pos
-	#var tangent = offset_pos.rotated(PI/2)
-	## Vector Projection Formula
-	#var velocity_projected = (velocity.dot(tangent)/pow(tangent.length(), 2))*tangent
-	## Turn vector so it lies on grapple circle
-	#var inv = -1 if offset_pos.y >= (velocity.y/velocity.x)*offset_pos.x else 1
-	#var chord_ang = 2 * asin(((inv)*velocity_projected.length()) / (2*offset_pos.length()))
-	#var player_ang = atan2(offset_pos.y,offset_pos.x)
-	#var final_vel = offset_pos.length() * Vector2(cos(chord_ang+player_ang),sin(chord_ang+player_ang))
-	##print(velocity.length(), " ", velocity_projected.length(), " ", final_vel.length())
-	##print(velocity, velocity_projected, final_vel)
-	#print(offset_pos.length(), " ", velocity.length())
-	#velocity = final_vel - offset_pos
 
 func project_velocity():
 	var offset_pos = position - grapple_pos
@@ -115,15 +115,21 @@ func project_velocity():
 
 	velocity = velocity_projected
 
+
+# -------------------
+# ------ OTHER ------
+# -------------------
+
 func face(left: bool):
 	facing_left = left
 	$Sprite2D.flip_h = left
+
 
 func _draw():
 	if player_state == State.GRAPPLE:
 		draw_line(Vector2(0,0), to_local(grapple_pos), Color.BLACK, 2)
 	else:
-		draw_line(Vector2(0,0), Vector2(0, -GRAPPLE_RANGE).rotated(GRAPPLE_ANGLE * (-1 if facing_left else 1)), Color.GRAY, 2)
+		draw_line(Vector2(0,0), Vector2(GRAPPLE_RANGE, 0).rotated(grapple_angle), Color.GRAY, 2)
 	
 	if DEBUG_DRAW:
 		draw_line(Vector2(0, 0), Vector2(velocity.x/5, 0), Color.GREEN, 2)

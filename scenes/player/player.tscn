@@ -4,14 +4,13 @@
 [ext_resource type="Texture2D" uid="uid://cls3l03gvooy7" path="res://scenes/player/player.png" id="2_gmlin"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dovo2"]
-size = Vector2(60, 60)
+size = Vector2(36, 36)
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("2_dovo2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(5.36442e-07, 5.36442e-07)
-scale = Vector2(2, 2)
 texture = ExtResource("2_gmlin")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
