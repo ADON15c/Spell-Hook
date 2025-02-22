@@ -4,9 +4,13 @@ enum State {NORMAL, GRAPPLE}
 
 var player_state: State = State.NORMAL
 
-var SPEED: float = 100.0
-var MAX_SPEED: float = 300.0
-var FRICTION: float = 50.0
+var RUN_ACCEL: float = 1800.0  # Run acceleration speed. Also acts as decceleration speed when changing direction
+var RUN_REDUCE: float = 800.0  # Speed reduction from going over RUN_MAX
+var RUN_MAX: float = 200.0     # Max speed from running
+
+var GRAVITY: float = 1200.0    # How fast falling speed increases
+var MAX_FALL: float = 600.0    # Max falling speed
+
 var JUMP_VELOCITY: float = -400.0
 var GRAPPLE_RANGE: float = 300.0
 var GRAPPLE_BOOST: float = 2.5
@@ -29,51 +33,42 @@ func _physics_process(delta):
 # -------------------------------
 
 func _physics_process_normal(delta):
-	var direction = Input.get_axis("ui_left", "ui_right")
-	
 	if Input.is_action_just_pressed("grapple"):
 		create_grapple()
 	
-	if Input.is_action_just_pressed("dash"):
-		velocity.x += 1000 * direction
-	
 	# Add the gravity.
 	if not is_on_floor():
-		velocity += get_gravity() * delta
+		velocity.y = move_toward(velocity.y, MAX_FALL, GRAVITY * delta)
 	
 	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
-
-	if direction != 0:
-		if (facing_left and direction>0):
-			face(false)
-		elif (not facing_left and direction<0):
-			face(true)
-		
-		if abs(velocity.x) < (MAX_SPEED-abs(velocity.x)):
-			velocity.x += direction * SPEED
-		elif abs(velocity.x) < (MAX_SPEED):
-			velocity.x = direction * MAX_SPEED
 	
-	velocity.x = move_toward(velocity.x, 0, FRICTION)
+	# Horizontal Movement
+	var direction = Input.get_axis("move_left", "move_right")
+	direction = 1 if (direction > 0) else -1 if (direction < 0) else 0
+	
+	if (facing_left and direction>0):
+		face(false)
+	elif (not facing_left and direction<0):
+		face(true)
+		
+	if abs(velocity.x) > RUN_MAX && sign(velocity.x) == direction:
+		velocity.x = move_toward(velocity.x, RUN_MAX * direction, RUN_REDUCE * delta)
+	else:
+		velocity.x = move_toward(velocity.x, RUN_MAX * direction, RUN_ACCEL * delta)
 	
 	move_and_slide()
 	queue_redraw()
 
 	
 func _physics_process_grapple(delta):
-	var direction = Input.get_axis("ui_left", "ui_right")
-	
 	if Input.is_action_just_pressed("grapple"):
 		player_state = State.NORMAL
 	
-	if Input.is_action_just_pressed("dash"):
-		velocity.x += 1000 * direction
-	
 	# Add the gravity.
 	if not is_on_floor():
-		velocity += get_gravity() * delta
+		velocity.y = move_toward(velocity.y, MAX_FALL, GRAVITY * delta)
 	
 	project_velocity()
 	move_and_slide()
