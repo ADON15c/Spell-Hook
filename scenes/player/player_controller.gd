@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-enum State {NORMAL, GRAPPLE}
+enum State {NORMAL, GRAPPLE, GRAPPLE_DASH}
 
 
 # ----------------------------------------
@@ -19,11 +19,15 @@ var JUMP_VELOCITY: float = -700.0 # Velocity Applied on Jump
 
 var GRAPPLE_RANGE: float = 500.0  # Grapple Hook Range
 var GRAPPLE_BOOST: float = 2.5    # velocity multiplier from starting grapple
+var GRAPPLE_DASH_DURATION: float = 15/60.0 # Duration of grapple's dash in seconds
+var GRAPPLE_DASH_SPEED: float = 4000.0
+
 
 const DEBUG_DRAW: bool = false
 
 var facing_left: bool = false
 var grapple_pos: Vector2
+var grapple_dash_time_left: float = 0
 var grapple_angle: float = 0
 var grapple_angle_fixed: bool = false
 
@@ -41,7 +45,9 @@ func _physics_process(delta):
 		State.NORMAL:
 			_physics_process_normal(delta)
 		State.GRAPPLE:
-			_physics_process_grapple(delta)  
+			_physics_process_grapple(delta)
+		State.GRAPPLE_DASH:
+			_physics_process_grapple_dash(delta)  
 
 
 func _physics_process_normal(delta):
@@ -86,6 +92,18 @@ func _physics_process_grapple(delta):
 	move_and_slide()
 	queue_redraw()
 
+func _physics_process_grapple_dash(delta):
+	grapple_dash_time_left -= delta
+	
+	project_velocity()
+	velocity = velocity.normalized() * GRAPPLE_DASH_SPEED
+	move_and_slide()
+	queue_redraw()
+	
+	if grapple_dash_time_left <= 0:
+		player_state = State.GRAPPLE
+		velocity = velocity.normalized() * 1000
+
 
 # ---------------------------
 # ------ GRAPPLE STUFF ------
@@ -101,7 +119,9 @@ func create_grapple():
 		return
 	
 	grapple_pos = result.position
-	player_state = State.GRAPPLE
+	player_state = State.GRAPPLE_DASH
+	grapple_dash_time_left = GRAPPLE_DASH_DURATION
+	print(GRAPPLE_DASH_DURATION, grapple_dash_time_left)
 
 	project_velocity()
 	velocity *= GRAPPLE_BOOST
@@ -128,6 +148,8 @@ func face(left: bool):
 func _draw():
 	if player_state == State.GRAPPLE:
 		draw_line(Vector2(0,0), to_local(grapple_pos), Color.BLACK, 2)
+	elif player_state == State.GRAPPLE_DASH:
+		draw_line(Vector2(0,0), to_local(grapple_pos), Color.BLUE, 2)
 	else:
 		draw_line(Vector2(0,0), Vector2(GRAPPLE_RANGE, 0).rotated(grapple_angle), Color.GRAY, 2)
 	
