@@ -1,6 +1,14 @@
 
 extends Area2D
 class_name Room
+## A node describing a room in a level
+##
+## To be valid the Room must:
+## - Contain a single CollisionShape2D
+## - The CollisionShape2D must have a Rectangular Shape
+## - The Rectangle must be larger than 1920x1080
+## - The Spawnpoint property must be set to a marker, by convention that spawnpoint should be a child node
+
 
 @export var spawnpoint: Marker2D
 var bounds: Rect2

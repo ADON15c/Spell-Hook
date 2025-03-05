@@ -1,5 +1,12 @@
 extends Node2D
 class_name Level
+## A node describing a level
+##
+## Most levels should be split into rooms (even if there is only one room) and have a player set
+## To add rooms
+## - Add a child node called "Rooms"
+## - Add the valid Room nodes as children to that
+## - Set the starting rooms property
 
 @export var player_scene: PackedScene
 @export var rooms_node: Node # Node containing rooms
@@ -20,7 +27,7 @@ func _ready():
 		add_child(player)
 	
 
-	if rooms_node and rooms_node.get_children().all(func(node): return (node is Room) and (node as Room).check_valid().is_empty()):
+	if rooms_node and rooms_node.get_children().all(func(node): return (node is Room) and (node as Room).check_valid().is_empty()) and starting_room:
 		has_rooms = true
 		
 		rooms.assign(rooms_node.get_children())
