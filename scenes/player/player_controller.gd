@@ -27,21 +27,45 @@ var grapple_pos: Vector2
 var grapple_angle: float = 0
 var grapple_angle_fixed: bool = false
 
-func _process(delta):
+func _process(_delta):
 	if not grapple_angle_fixed:
 		var input_dir = Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down"))
 		grapple_angle = input_dir.angle()
 
-# -------------------------------
-# ------ PHYSICS PROCESSES ------
-# -------------------------------
+
+# -----------------------
+# ------ BUILT-INS ------
+# -----------------------
 
 func _physics_process(delta):
 	match player_state:
 		State.NORMAL:
 			_physics_process_normal(delta)
 		State.GRAPPLE:
-			_physics_process_grapple(delta)  
+			_physics_process_grapple(delta)
+
+
+func _draw():
+	if player_state == State.GRAPPLE:
+		draw_line(Vector2(0,0), to_local(grapple_pos), Color.BLACK, 2)
+	else:
+		draw_line(Vector2(0,0), Vector2(GRAPPLE_RANGE, 0).rotated(grapple_angle), Color.GRAY, 2)
+	
+	if DEBUG_DRAW:
+		draw_line(Vector2(0, 0), Vector2(velocity.x/5, 0), Color.GREEN, 2)
+		draw_line(Vector2(0, 0), Vector2(0, velocity.y/5), Color.RED, 2)
+		draw_line(Vector2(0, 0), velocity/5, Color.BLUE, 2)
+		
+		if player_state == State.GRAPPLE:
+			var offset_pos: Vector2 = position - grapple_pos
+			var tangent = Vector2(offset_pos.x + 1, offset_pos.y-(offset_pos.x/offset_pos.y)) - offset_pos
+
+			draw_line(Vector2(0,0), tangent.normalized()*25, Color.BLUE, 2)
+
+
+# --------------------------
+# ------ NORMAL STATE ------
+# --------------------------
 
 
 func _physics_process_normal(delta):
@@ -74,6 +98,10 @@ func _physics_process_normal(delta):
 	queue_redraw()
 
 
+# --------------------------
+# ------ GRAPPLE STATE ------
+# --------------------------
+
 func _physics_process_grapple(delta):
 	if Input.is_action_just_pressed("grapple"):
 		player_state = State.NORMAL
@@ -86,10 +114,6 @@ func _physics_process_grapple(delta):
 	move_and_slide()
 	queue_redraw()
 
-
-# ---------------------------
-# ------ GRAPPLE STUFF ------
-# ---------------------------
 
 func create_grapple():
 	var space_state = get_world_2d().direct_space_state
@@ -123,21 +147,3 @@ func project_velocity():
 func face(left: bool):
 	facing_left = left
 	$Sprite2D.flip_h = left
-
-
-func _draw():
-	if player_state == State.GRAPPLE:
-		draw_line(Vector2(0,0), to_local(grapple_pos), Color.BLACK, 2)
-	else:
-		draw_line(Vector2(0,0), Vector2(GRAPPLE_RANGE, 0).rotated(grapple_angle), Color.GRAY, 2)
-	
-	if DEBUG_DRAW:
-		draw_line(Vector2(0, 0), Vector2(velocity.x/5, 0), Color.GREEN, 2)
-		draw_line(Vector2(0, 0), Vector2(0, velocity.y/5), Color.RED, 2)
-		draw_line(Vector2(0, 0), velocity/5, Color.BLUE, 2)
-		
-		if player_state == State.GRAPPLE:
-			var offset_pos: Vector2 = position - grapple_pos
-			var tangent = Vector2(offset_pos.x + 1, offset_pos.y-(offset_pos.x/offset_pos.y)) - offset_pos
-
-			draw_line(Vector2(0,0), tangent.normalized()*25, Color.BLUE, 2)
