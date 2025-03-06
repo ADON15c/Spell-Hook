@@ -85,7 +85,6 @@ func _physics_process_normal(delta):
 	
 	# Horizontal Movement
 	var direction = Input.get_axis("move_left", "move_right")
-	print(direction)
 	direction = 1 if (direction > 0) else -1 if (direction < 0) else 0
 	
 	if (facing_left and direction>0):
