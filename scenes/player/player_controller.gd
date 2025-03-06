@@ -27,6 +27,9 @@ var grapple_pos: Vector2
 var grapple_angle: float = 0
 var grapple_angle_fixed: bool = false
 
+var grapple_dist: float
+var angular_velocity: float
+
 func _process(_delta):
 	if not grapple_angle_fixed:
 		var input_dir = Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down"))
@@ -82,6 +85,7 @@ func _physics_process_normal(delta):
 	
 	# Horizontal Movement
 	var direction = Input.get_axis("move_left", "move_right")
+	print(direction)
 	direction = 1 if (direction > 0) else -1 if (direction < 0) else 0
 	
 	if (facing_left and direction>0):
@@ -103,16 +107,27 @@ func _physics_process_normal(delta):
 # --------------------------
 
 func _physics_process_grapple(delta):
+	#print(get_polar_position())
+
+	#
+	var polar_pos: Vector2 = get_polar_position()
+	polar_pos = Vector2(grapple_dist, polar_pos.y + (angular_velocity/polar_pos.x)*delta)
+	#print(angular_velocity*delta, " ", polar_pos.y)
+	set_position_polar(polar_pos)
+	#print(grapple_dist)
+	#set_position_polar(Vector2(grapple_dist, grapple_angle + PI))
+	
 	if Input.is_action_just_pressed("grapple"):
 		player_state = State.NORMAL
-	
-	# Add the gravity.
-	if not is_on_floor():
-		velocity.y = move_toward(velocity.y, MAX_FALL, GRAVITY * delta)
-	
-	project_velocity()
-	move_and_slide()
-	queue_redraw()
+	#
+	## Add the gravity.
+	#if not is_on_floor():
+		#velocity.y = move_toward(velocity.y, MAX_FALL, GRAVITY * delta)
+	#
+	#project_velocity()
+	#move_and_slide()
+	#queue_redraw()
+
 
 
 func create_grapple():
@@ -125,6 +140,8 @@ func create_grapple():
 		return
 	
 	grapple_pos = result.position
+	angular_velocity = 1000.0
+	grapple_dist = grapple_pos.distance_to(position)
 	player_state = State.GRAPPLE
 
 	project_velocity()
@@ -138,6 +155,16 @@ func project_velocity():
 	var velocity_projected = (velocity.dot(tangent)/pow(tangent.length(), 2))*tangent
 
 	velocity = velocity_projected
+
+func get_polar_position() -> Vector2:
+	var ang: float = global_position.angle_to_point(grapple_pos)
+	var dist: float = grapple_pos.distance_to(position)
+	return Vector2(dist, ang)
+
+func set_position_polar(new_pos: Vector2) -> void:
+	new_pos.y -= PI
+	position.x = cos(new_pos.y)*new_pos.x + grapple_pos.x
+	position.y = sin(new_pos.y)*new_pos.x + grapple_pos.y
 
 
 # -------------------
