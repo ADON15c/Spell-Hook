@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 enum State {NORMAL, GRAPPLE}
-
+signal death
 
 # ----------------------------------------
 # ------ MEMBER VARIABLES/CONSTANTS ------
@@ -30,15 +30,20 @@ var grapple_angle_fixed: bool = false
 var grapple_dist: float
 var angular_velocity: float
 
-func _process(_delta):
-	if not grapple_angle_fixed:
-		var input_dir = Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down"))
-		grapple_angle = input_dir.angle()
-
 
 # -----------------------
 # ------ BUILT-INS ------
 # -----------------------
+
+func _input(event):
+	if event.is_action_pressed("restart"):
+		death.emit()
+		queue_free()
+
+func _process(_delta):
+	if not grapple_angle_fixed:
+		var input_dir = Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down"))
+		grapple_angle = input_dir.angle()
 
 func _physics_process(delta):
 	match player_state:

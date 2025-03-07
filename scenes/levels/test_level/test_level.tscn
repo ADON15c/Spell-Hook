@@ -418,7 +418,7 @@ sources/1 = SubResource("TileSetAtlasSource_62kbb")
 script = ExtResource("1_i0vk3")
 player_scene = ExtResource("2_uxvkn")
 rooms_node = NodePath("Rooms")
-starting_room = NodePath("Rooms/Room4")
+starting_room = NodePath("Rooms/Room1")
 metadata/_custom_type_script = "uid://dv42nxkrm2ttd"
 
 [node name="Rooms" type="Node" parent="."]

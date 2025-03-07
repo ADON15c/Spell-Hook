@@ -19,6 +19,9 @@ func _ready():
 		var remote_transform: RemoteTransform2D = RemoteTransform2D.new()
 		remote_transform.remote_path = camera.get_path()
 		current_level.player.add_child(remote_transform)
+		
+		if current_level.player.has_signal("death"):
+			current_level.player.death.connect(restart)
 	
 	if current_level.has_rooms:
 		current_level.changed_room.connect(set_camera_bounds)
@@ -28,3 +31,6 @@ func set_camera_bounds(bounds: Rect2):
 	camera.limit_right = round(bounds.size.x + bounds.position.x)
 	camera.limit_top = round(bounds.position.y)
 	camera.limit_bottom = round(bounds.size.y + bounds.position.y)
+
+func restart():
+	get_tree().reload_current_scene()
