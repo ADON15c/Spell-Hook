@@ -132,6 +132,7 @@ func _physics_process_grapple(delta):
 		position = new_position
 
 	if Input.is_action_just_pressed("grapple"):
+		angular_velocity_to_velocity()
 		player_state = State.NORMAL
 	
 	# Add the gravity.
