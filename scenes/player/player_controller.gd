@@ -24,7 +24,7 @@ const DEBUG_DRAW: bool = false
 
 var facing_left: bool = false
 var grapple_pos: Vector2
-var grapple_angle: float = 0
+var grapple_angle: float = -PI/2
 var grapple_angle_fixed: bool = false
 
 var grapple_dist: float
@@ -47,7 +47,6 @@ func _physics_process(delta):
 		State.GRAPPLE:
 			_physics_process_grapple(delta)
 
-
 func _draw():
 	if player_state == State.GRAPPLE:
 		draw_line(Vector2(0,0), to_local(grapple_pos), Color.BLACK, 2)
@@ -63,13 +62,12 @@ func _draw():
 			var offset_pos: Vector2 = position - grapple_pos
 			var tangent = Vector2(offset_pos.x + 1, offset_pos.y-(offset_pos.x/offset_pos.y)) - offset_pos
 
-			draw_line(Vector2(0,0), tangent.normalized()*25, Color.BLUE, 2)
+			draw_line(Vector2(0,0), tangent.normalized()*100, Color.BLUE, 2)
 
 
 # --------------------------
 # ------ NORMAL STATE ------
 # --------------------------
-
 
 func _physics_process_normal(delta):
 	if Input.is_action_just_pressed("grapple"):
@@ -106,28 +104,44 @@ func _physics_process_normal(delta):
 # --------------------------
 
 func _physics_process_grapple(delta):
-	#print(get_polar_position())
-
-	#
-	var polar_pos: Vector2 = get_polar_position()
+	var polar_pos: Vector2 = cartesian_to_polar(position)
 	polar_pos = Vector2(grapple_dist, polar_pos.y + (angular_velocity/polar_pos.x)*delta)
-	#print(angular_velocity*delta, " ", polar_pos.y)
-	set_position_polar(polar_pos)
-	#print(grapple_dist)
-	#set_position_polar(Vector2(grapple_dist, grapple_angle + PI))
+	var new_position: Vector2 = polar_to_cartesian(polar_pos)
+	var test_collision: KinematicCollision2D = KinematicCollision2D.new()
 	
+	if test_move(transform, new_position-position, test_collision): # Handle collision
+		angular_velocity = 0
+		var normal: Vector2 = test_collision.get_normal()
+		position += test_collision.get_travel()
+		# The above collision correction will slightly move us closer or further from the grapple point, this corercts that
+		if normal.x != 0:
+			# This formula comes from solving the intersection between a circle representing the grapple point and a line representing our players y-axis
+			# Since this a quadratic we have two solutions. Which one we chose depends which side of the circle we are on
+			var side_sign: int = 1 if polar_pos.y >=0 else -1
+			# Use shifted verion of player position with grapple at 0,0 to make math easier
+			var shifted_position: Vector2 = position-grapple_pos
+			shifted_position.y = side_sign*sqrt(grapple_dist*grapple_dist - shifted_position.x*shifted_position.x)
+			position = shifted_position + grapple_pos
+		elif normal.y != 0:
+			# Same process as above but for shifting on x-axis
+			var side_sign: int = 1 if abs(polar_pos.y) <= PI/2 else -1
+			var shifted_position: Vector2 = position-grapple_pos
+			shifted_position.x = side_sign*sqrt(grapple_dist*grapple_dist - shifted_position.y*shifted_position.y)
+			position = shifted_position + grapple_pos
+	else:
+		position = new_position
+
 	if Input.is_action_just_pressed("grapple"):
 		player_state = State.NORMAL
-	#
-	## Add the gravity.
-	#if not is_on_floor():
-		#velocity.y = move_toward(velocity.y, MAX_FALL, GRAVITY * delta)
-	#
-	#project_velocity()
-	#move_and_slide()
-	#queue_redraw()
+	
+	# Add the gravity.
+	if not is_on_floor():
+		angular_velocity_to_velocity()
+		velocity.y = move_toward(velocity.y, MAX_FALL, GRAVITY * delta)
+		velocity_to_angular_velocity()
+	
 
-
+	queue_redraw()
 
 func create_grapple():
 	var space_state = get_world_2d().direct_space_state
@@ -139,31 +153,36 @@ func create_grapple():
 		return
 	
 	grapple_pos = result.position
-	angular_velocity = 1000.0
 	grapple_dist = grapple_pos.distance_to(position)
 	player_state = State.GRAPPLE
 
-	project_velocity()
-	velocity *= GRAPPLE_BOOST
+	velocity_to_angular_velocity()
+	angular_velocity *= GRAPPLE_BOOST
 
-
-func project_velocity():
-	var offset_pos = position - grapple_pos
+func velocity_to_angular_velocity():
+	var offset_pos = position - grapple_pos # Position relative to grapple
 	var tangent = offset_pos.rotated(PI/2)
 	# Vector Projection Formula
 	var velocity_projected = (velocity.dot(tangent)/pow(tangent.length(), 2))*tangent
+	var angular_velocity_magnitude = velocity_projected.length()
+	
+	var offset_grapple = grapple_pos-position # Grapple position relative to player
+	var angular_velocity_direction = 1 if offset_grapple.angle_to(velocity_projected) < 0 else -1
+	angular_velocity = angular_velocity_direction*angular_velocity_magnitude
 
-	velocity = velocity_projected
+func angular_velocity_to_velocity():
+	var offset_pos = position - grapple_pos # Position relative to grapple
+	var tangent = offset_pos.rotated(PI/2).normalized()
+	velocity = tangent * angular_velocity
 
-func get_polar_position() -> Vector2:
-	var ang: float = global_position.angle_to_point(grapple_pos)
-	var dist: float = grapple_pos.distance_to(position)
+
+func cartesian_to_polar(cartesian: Vector2) -> Vector2:
+	var ang: float = grapple_pos.angle_to_point(cartesian)
+	var dist: float = grapple_pos.distance_to(cartesian)
 	return Vector2(dist, ang)
 
-func set_position_polar(new_pos: Vector2) -> void:
-	new_pos.y -= PI
-	position.x = cos(new_pos.y)*new_pos.x + grapple_pos.x
-	position.y = sin(new_pos.y)*new_pos.x + grapple_pos.y
+func polar_to_cartesian(polar: Vector2) -> Vector2:
+	return Vector2.RIGHT.rotated(polar.y)*polar.x + grapple_pos
 
 
 # -------------------
