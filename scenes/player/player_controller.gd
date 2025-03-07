@@ -18,7 +18,7 @@ var MAX_FALL: float = 1000.0      # Max falling speed
 var JUMP_VELOCITY: float = -700.0 # Velocity Applied on Jump
 
 var GRAPPLE_RANGE: float = 500.0  # Grapple Hook Range
-var GRAPPLE_BOOST: float = 2.5    # velocity multiplier from starting grapple
+var GRAPPLE_BOOST: float = 1.0    # velocity multiplier from starting grapple
 
 const DEBUG_DRAW: bool = false
 
@@ -164,7 +164,7 @@ func velocity_to_angular_velocity():
 	var offset_pos = position - grapple_pos # Position relative to grapple
 	var tangent = offset_pos.rotated(PI/2)
 	# Vector Projection Formula
-	var velocity_projected = (velocity.dot(tangent)/pow(tangent.length(), 2))*tangent
+	var velocity_projected = velocity.project(tangent)
 	var angular_velocity_magnitude = velocity_projected.length()
 	
 	var offset_grapple = grapple_pos-position # Grapple position relative to player
