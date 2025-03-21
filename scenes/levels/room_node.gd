@@ -14,6 +14,9 @@ class_name Room
 var bounds: Rect2
 
 func _ready():
+	collision_layer = 0
+	collision_mask = 4
+	
 	var errors: Array[String] = check_valid()
 	if not errors.is_empty():
 		push_error(str(get_path()) + " Room is not valid: " + str(errors))

@@ -30,8 +30,8 @@ func load_level(level_scene: PackedScene):
 		remote_transform.remote_path = camera.get_path()
 		current_level.player.add_child(remote_transform)
 		
-		#if current_level.player.has_signal("death"):
-			#current_level.player.death.connect(restart)
+		if current_level.player.has_signal("death"):
+			current_level.player.death.connect(restart)
 	
 	if current_level.has_rooms:
 		current_level.changed_room.connect(set_camera_bounds)

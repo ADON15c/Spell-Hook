@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Player
 
 enum State {NORMAL, GRAPPLE}
 signal death
@@ -136,7 +137,7 @@ func _physics_process_grapple(delta):
 	else:
 		position = new_position
 
-	if Input.is_action_just_pressed("grapple"):
+	if Input.is_action_just_released("grapple"):
 		angular_velocity_to_velocity()
 		player_state = State.NORMAL
 	
@@ -198,3 +199,14 @@ func polar_to_cartesian(polar: Vector2) -> Vector2:
 func face(left: bool):
 	facing_left = left
 	$Sprite2D.flip_h = left
+
+func apply_velocity(distance: Vector2):
+	print(distance)
+	match player_state:
+		State.NORMAL:
+			velocity += distance
+			print(velocity)
+		State.GRAPPLE:
+			angular_velocity_to_velocity()
+			velocity += distance
+			velocity_to_angular_velocity()
