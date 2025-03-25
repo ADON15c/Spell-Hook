@@ -39,6 +39,7 @@ spawnpoint = NodePath("Room1Spawnpoint")
 metadata/_custom_type_script = "uid://wxkjl0cuvlax"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Room1"]
+visible = false
 position = Vector2(1839.5, 540)
 shape = SubResource("RectangleShape2D_kc65l")
 
@@ -54,6 +55,7 @@ spawnpoint = NodePath("Room2Spawnpoint")
 metadata/_custom_type_script = "uid://wxkjl0cuvlax"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Room2"]
+visible = false
 position = Vector2(4720, 540)
 shape = SubResource("RectangleShape2D_62kbb")
 
@@ -69,6 +71,7 @@ spawnpoint = NodePath("Room3Spawnpoint")
 metadata/_custom_type_script = "uid://wxkjl0cuvlax"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Room3"]
+visible = false
 position = Vector2(-1041, 540)
 shape = SubResource("RectangleShape2D_uxvkn")
 
@@ -84,6 +87,7 @@ spawnpoint = NodePath("Room4Spawnpoint")
 metadata/_custom_type_script = "uid://wxkjl0cuvlax"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Room4"]
+visible = false
 position = Vector2(-2961, 540)
 shape = SubResource("RectangleShape2D_uxvkn")
 
