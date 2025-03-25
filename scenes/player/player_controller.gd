@@ -163,7 +163,11 @@ func create_grapple():
 	if result.is_empty():
 		return
 	
-	grapple_pos = result.position
+	if result.collider is TileMapLayer:
+		var tilemap: TileMapLayer = result.collider as TileMapLayer
+		grapple_pos = tilemap.map_to_local(tilemap.local_to_map(result.position-result.normal))
+	else:
+		grapple_pos = result.position
 	grapple_line.visible = true
 	grapple_line.points[1] = to_local(grapple_pos)
 	grapple_dist = grapple_pos.distance_to(position)
@@ -207,11 +211,9 @@ func face(left: bool):
 	$Sprite2D.flip_h = left
 
 func apply_velocity(distance: Vector2):
-	print(distance)
 	match player_state:
 		State.NORMAL:
 			velocity += distance
-			print(velocity)
 		State.GRAPPLE:
 			angular_velocity_to_velocity()
 			velocity += distance
