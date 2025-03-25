@@ -99,9 +99,11 @@ gizmo_extents = 40.0
 position = Vector2(360, 920)
 
 [node name="Jump Pad2" parent="." instance=ExtResource("5_qv4mi")]
-position = Vector2(120, 680)
+position = Vector2(40, 680)
 rotation = 1.5708
+facing = 2
 
 [node name="Jump Pad3" parent="." instance=ExtResource("5_qv4mi")]
-position = Vector2(1400, 920)
-rotation = 1.5708
+position = Vector2(360, 200)
+rotation = 3.14159
+facing = 1

@@ -218,3 +218,21 @@ func apply_velocity(distance: Vector2):
 			angular_velocity_to_velocity()
 			velocity += distance
 			velocity_to_angular_velocity()
+
+func set_velocity_x(new_x: float):
+	match player_state:
+		State.NORMAL:
+			velocity.x = new_x
+		State.GRAPPLE:
+			angular_velocity_to_velocity()
+			velocity.x = new_x
+			velocity_to_angular_velocity()
+
+func set_velocity_y(new_y: float):
+	match player_state:
+		State.NORMAL:
+			velocity.y = new_y
+		State.GRAPPLE:
+			angular_velocity_to_velocity()
+			velocity.y = new_y
+			velocity_to_angular_velocity()
