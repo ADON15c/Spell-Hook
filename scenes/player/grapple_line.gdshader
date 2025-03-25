@@ -2,6 +2,10 @@ shader_type canvas_item;
 
 #define FLT_MAX 3.402823466e+38
 
+uniform float start = 0.0;
+uniform float end = 1.0;
+uniform float tapper_distance = 0.5;
+
 struct WaveParams {
     float wavelength;
     float frequency;
@@ -42,14 +46,23 @@ float distanceToWave(in vec2 uv, in WaveParams wave) {
 
 
 void fragment() {
-    // Normalized pixel coordinates (from 0 to 1)
-    
+	if (UV.x < start || UV.x > end) {
+		discard;
+	}
+	
+    vec2 tappered_uv = UV;
+	if (UV.x < tapper_distance+start) {
+		tappered_uv.y = (tappered_uv.y-0.5)/sqrt((tappered_uv.x-start)/tapper_distance)+0.5;
+	} else if (UV.x > end-tapper_distance) {
+		tappered_uv.y = (tappered_uv.y-0.5)/sqrt((end-tappered_uv.x)/tapper_distance)+0.5;
+	}
+	
     
     float minDist = FLT_MAX;
     COLOR = vec4(0.0);
     for (int i = 0; i<waves.length(); i++) {
         WaveParams wave = waves[i];
-        float dist = distanceToWave(UV, wave);
+        float dist = distanceToWave(tappered_uv, wave);
         if (dist >= 0.0 && dist < minDist) {
             minDist = dist;
             COLOR = vec4(wave.color, 1.0);
