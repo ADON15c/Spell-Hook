@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bdrgjkv8seudf"]
+
+[ext_resource type="PackedScene" uid="uid://bjgdg81qflcij" path="res://scenes/interactibles/one_way_platform/one_way_platform.tscn" id="1_qi2ci"]
+
+[node name="OneWayPlatformUp" type="Node2D"]
+
+[node name="OneWayPlatform" parent="." instance=ExtResource("1_qi2ci")]

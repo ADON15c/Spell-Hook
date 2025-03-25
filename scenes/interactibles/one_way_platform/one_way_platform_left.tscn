@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6lfqmh4p7j85"]
+
+[ext_resource type="PackedScene" uid="uid://bjgdg81qflcij" path="res://scenes/interactibles/one_way_platform/one_way_platform.tscn" id="1_tx1dy"]
+
+[node name="OneWayPlatformLeft" type="Node2D"]
+
+[node name="OneWayPlatform" parent="." instance=ExtResource("1_tx1dy")]
+rotation = 4.71239
+facing = 3

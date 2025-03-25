@@ -1,9 +1,17 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://cmohyklrd1wjy"]
+[gd_resource type="TileSet" load_steps=12 format=3 uid="uid://cmohyklrd1wjy"]
 
-[ext_resource type="Texture2D" uid="uid://b5m1h274nov1k" path="res://resources/tilesets/brick_tileset.png" id="1_vusgl"]
+[ext_resource type="Texture2D" uid="uid://b5m1h274nov1k" path="res://resources/tilesets/brick_tileset.png" id="2_8e76s"]
+[ext_resource type="PackedScene" uid="uid://c24noofsqsxeh" path="res://scenes/interactibles/jump_pad/jump_pad_down.tscn" id="3_ri0oi"]
+[ext_resource type="PackedScene" uid="uid://25u3acqn0j8k" path="res://scenes/interactibles/jump_pad/jump_pad_left.tscn" id="4_qxlo7"]
+[ext_resource type="PackedScene" uid="uid://chj2mdf3mttum" path="res://scenes/interactibles/jump_pad/jump_pad_right.tscn" id="5_hfsul"]
+[ext_resource type="PackedScene" uid="uid://bt5s7nqas3gdi" path="res://scenes/interactibles/jump_pad/jump_pad_up.tscn" id="6_b5t0q"]
+[ext_resource type="PackedScene" uid="uid://25a003nsd7pm" path="res://scenes/interactibles/one_way_platform/one_way_platform_down.tscn" id="6_xavqs"]
+[ext_resource type="PackedScene" uid="uid://c6lfqmh4p7j85" path="res://scenes/interactibles/one_way_platform/one_way_platform_left.tscn" id="7_vy2fp"]
+[ext_resource type="PackedScene" uid="uid://dptdmt3tr0e66" path="res://scenes/interactibles/one_way_platform/one_way_platform_right.tscn" id="8_4w25l"]
+[ext_resource type="PackedScene" uid="uid://bdrgjkv8seudf" path="res://scenes/interactibles/one_way_platform/one_way_platform_up.tscn" id="9_um71m"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_62kbb"]
-texture = ExtResource("1_vusgl")
+texture = ExtResource("2_8e76s")
 texture_region_size = Vector2i(80, 80)
 0:0/0 = 0
 0:0/0/terrain_set = 0
@@ -394,6 +402,17 @@ texture_region_size = Vector2i(80, 80)
 11:3/0/terrains_peering_bit/top_left_corner = 0
 11:3/0/terrains_peering_bit/top_side = 0
 
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_ycxog"]
+resource_name = "Interactables"
+scenes/1/scene = ExtResource("3_ri0oi")
+scenes/2/scene = ExtResource("4_qxlo7")
+scenes/3/scene = ExtResource("5_hfsul")
+scenes/4/scene = ExtResource("6_b5t0q")
+scenes/5/scene = ExtResource("6_xavqs")
+scenes/6/scene = ExtResource("7_vy2fp")
+scenes/7/scene = ExtResource("8_4w25l")
+scenes/8/scene = ExtResource("9_um71m")
+
 [resource]
 tile_size = Vector2i(80, 80)
 physics_layer_0/collision_layer = 1
@@ -401,3 +420,4 @@ terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Tiles"
 terrain_set_0/terrain_0/color = Color(0.11477, 0.440315, 0.410552, 1)
 sources/1 = SubResource("TileSetAtlasSource_62kbb")
+sources/3 = SubResource("TileSetScenesCollectionSource_ycxog")

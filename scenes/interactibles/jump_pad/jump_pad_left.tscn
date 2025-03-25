@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://25u3acqn0j8k"]
+
+[ext_resource type="PackedScene" uid="uid://bcnj8uenxu0vp" path="res://scenes/interactibles/jump_pad/jump_pad.tscn" id="1_mh4ir"]
+
+[node name="JumpPadLeft" type="Node2D"]
+
+[node name="Jump Pad" parent="." instance=ExtResource("1_mh4ir")]
+rotation = 4.71239
+facing = 3
