@@ -8,6 +8,8 @@ signal death
 # ------ MEMBER VARIABLES/CONSTANTS ------
 # ----------------------------------------
 
+@onready var grapple_line: Line2D = $GrappleLine
+
 var player_state: State = State.NORMAL
 
 var RUN_ACCEL: float = 2700.0     # Run acceleration speed. Also acts as decceleration speed when changing direction
@@ -52,11 +54,12 @@ func _physics_process(delta):
 			_physics_process_normal(delta)
 		State.GRAPPLE:
 			_physics_process_grapple(delta)
+	
+	if player_state == State.GRAPPLE:
+		grapple_line.points[1] = to_local(grapple_pos)
 
 func _draw():
-	if player_state == State.GRAPPLE:
-		draw_line(Vector2(0,0), to_local(grapple_pos), Color.BLACK, 2)
-	else:
+	if player_state != State.GRAPPLE:
 		draw_line(Vector2(0,0), Vector2(GRAPPLE_RANGE, 0).rotated(grapple_angle), Color.GRAY, 2)
 	
 	if DEBUG_DRAW:
@@ -140,6 +143,7 @@ func _physics_process_grapple(delta):
 	if Input.is_action_just_released("grapple"):
 		angular_velocity_to_velocity()
 		player_state = State.NORMAL
+		grapple_line.visible = false
 	
 	# Add the gravity.
 	if not is_on_floor():
@@ -160,6 +164,8 @@ func create_grapple():
 		return
 	
 	grapple_pos = result.position
+	grapple_line.visible = true
+	grapple_line.points[1] = to_local(grapple_pos)
 	grapple_dist = grapple_pos.distance_to(position)
 	player_state = State.GRAPPLE
 

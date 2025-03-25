@@ -1,10 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://ckpjo4w0rrfr7"]
+[gd_scene load_steps=6 format=3 uid="uid://ckpjo4w0rrfr7"]
 
 [ext_resource type="Script" uid="uid://0wn08ydpe5n4" path="res://scenes/player/player_controller.gd" id="2_dovo2"]
 [ext_resource type="Texture2D" uid="uid://cls3l03gvooy7" path="res://scenes/player/player.png" id="2_gmlin"]
+[ext_resource type="Shader" uid="uid://d0l6dtfm713ul" path="res://scenes/player/grapple_line.gdshader" id="3_gmlin"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dovo2"]
 size = Vector2(36, 36)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lvxji"]
+shader = ExtResource("3_gmlin")
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 6
@@ -16,3 +20,11 @@ texture = ExtResource("2_gmlin")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_dovo2")
+
+[node name="GrappleLine" type="Line2D" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_lvxji")
+points = PackedVector2Array(0, 0, 99, -43)
+width = 40.0
+default_color = Color(0, 0, 0, 1)
+texture_mode = 1
