@@ -35,6 +35,7 @@ func load_level(level_scene: PackedScene):
 	
 	if current_level.has_rooms:
 		current_level.changed_room.connect(set_camera_bounds)
+		set_camera_bounds(current_level.current_room.bounds)
 
 func restart():
 	current_level.queue_free()

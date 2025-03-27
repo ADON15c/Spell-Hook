@@ -108,7 +108,6 @@ func _physics_process_normal(delta):
 		jumping = false
 	if jumping and velocity.y >= 0:
 		jumping = false
-	print(jumping)
 	
 	# Horizontal Movement
 	var direction = Input.get_axis("move_left", "move_right")
@@ -196,6 +195,7 @@ func create_grapple():
 
 	velocity_to_angular_velocity()
 	angular_velocity *= GRAPPLE_BOOST
+	jumping = false
 
 func grapple_raycast() -> Dictionary:
 	var space_state = get_world_2d().direct_space_state

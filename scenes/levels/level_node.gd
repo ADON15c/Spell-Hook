@@ -18,6 +18,7 @@ var player: Node2D
 var has_rooms: bool
 var rooms: Array[Room]
 var current_room: Room
+var new_room: Room
 
 
 func _ready():
@@ -37,6 +38,12 @@ func _ready():
 		for room in rooms:
 			var room_body_entered = func(body: Node2D):
 				if body == player:
-					current_room = room
-					changed_room.emit(room.bounds)
+					new_room = room
+			var room_body_exited = func(body: Node2D):
+				if body == player and new_room != null and room == current_room:
+					current_room = new_room
+					changed_room.emit(new_room.bounds)
+					new_room = null
+					
 			room.body_entered.connect(room_body_entered)
+			room.body_exited.connect(room_body_exited)
