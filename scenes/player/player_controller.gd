@@ -61,7 +61,17 @@ func _physics_process(delta):
 func _draw():
 	if player_state != State.GRAPPLE:
 		draw_line(Vector2(0,0), Vector2(GRAPPLE_RANGE, 0).rotated(grapple_angle), Color.GRAY, 2)
-	
+		#var result = grapple_raycast()
+		#if result.is_empty():
+			#return
+		#else:
+			#draw_circle(to_local(result.position),10.0,Color.RED)
+			#draw_line(Vector2(0,0), to_local(result.position), Color.RED, 2)
+			#
+			#draw_circle(to_local(result.position), to_local(result.position).length(), Color.GREEN, false, 2)
+	#else:
+		#draw_circle(to_local(grapple_pos), to_local(grapple_pos).length(), Color.GREEN, false, 2)
+			
 	if DEBUG_DRAW:
 		draw_line(Vector2(0, 0), Vector2(velocity.x/5, 0), Color.GREEN, 2)
 		draw_line(Vector2(0, 0), Vector2(0, velocity.y/5), Color.RED, 2)
@@ -151,23 +161,15 @@ func _physics_process_grapple(delta):
 		velocity.y = move_toward(velocity.y, MAX_FALL, GRAVITY * delta)
 		velocity_to_angular_velocity()
 	
-
 	queue_redraw()
 
 func create_grapple():
-	var space_state = get_world_2d().direct_space_state
-	# use global coordinates, not local to node
-	var query = PhysicsRayQueryParameters2D.create(to_global(Vector2(0, 0)), to_global(Vector2(GRAPPLE_RANGE, 0).rotated(grapple_angle)))
-	var result = space_state.intersect_ray(query)
-	
+	var result = grapple_raycast()
 	if result.is_empty():
 		return
-	
-	if result.collider is TileMapLayer:
-		var tilemap: TileMapLayer = result.collider as TileMapLayer
-		grapple_pos = tilemap.map_to_local(tilemap.local_to_map(result.position-result.normal))
 	else:
 		grapple_pos = result.position
+	
 	grapple_line.visible = true
 	grapple_line.points[1] = to_local(grapple_pos)
 	grapple_dist = grapple_pos.distance_to(position)
@@ -175,6 +177,26 @@ func create_grapple():
 
 	velocity_to_angular_velocity()
 	angular_velocity *= GRAPPLE_BOOST
+
+func grapple_raycast() -> Dictionary:
+	var space_state = get_world_2d().direct_space_state
+	# use global coordinates, not local to node
+	var query = PhysicsRayQueryParameters2D.create(to_global(Vector2(0, 0)), to_global(Vector2(GRAPPLE_RANGE, 0).rotated(grapple_angle)))
+	var result = space_state.intersect_ray(query)
+	
+	if result.is_empty():
+		return {}
+	
+	var output_pos: Vector2
+		
+	if result.collider is TileMapLayer:
+		var tilemap: TileMapLayer = result.collider as TileMapLayer
+		output_pos = tilemap.map_to_local(tilemap.local_to_map(result.position-result.normal))
+	else:
+		output_pos = result.position
+	
+	return {"position": output_pos}
+
 
 func velocity_to_angular_velocity():
 	var offset_pos = position - grapple_pos # Position relative to grapple
