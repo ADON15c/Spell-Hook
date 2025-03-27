@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://bsj816gw2rkqg" path="res://scenes/player/grapple_line.gd" id="4_lvxji"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dovo2"]
-size = Vector2(50, 90)
+size = Vector2(40, 70)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lvxji"]
 shader = ExtResource("3_gmlin")
@@ -23,7 +23,7 @@ position = Vector2(4.76837e-07, 5.36442e-07)
 texture = ExtResource("2_gmlin")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 5)
+position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_dovo2")
 
 [node name="GrappleLine" type="Line2D" parent="."]

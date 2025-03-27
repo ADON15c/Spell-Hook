@@ -191,7 +191,7 @@ func grapple_raycast() -> Dictionary:
 		
 	if result.collider is TileMapLayer:
 		var tilemap: TileMapLayer = result.collider as TileMapLayer
-		output_pos = tilemap.map_to_local(tilemap.local_to_map(result.position-result.normal))
+		output_pos = tilemap.map_to_local(tilemap.get_coords_for_body_rid(result.rid))
 	else:
 		output_pos = result.position
 	
