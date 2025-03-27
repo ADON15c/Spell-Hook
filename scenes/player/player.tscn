@@ -1,9 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://ckpjo4w0rrfr7"]
+[gd_scene load_steps=8 format=3 uid="uid://ckpjo4w0rrfr7"]
 
 [ext_resource type="Script" uid="uid://0wn08ydpe5n4" path="res://scenes/player/player_controller.gd" id="2_dovo2"]
 [ext_resource type="Texture2D" uid="uid://b7fma58p6ivyp" path="res://scenes/player/player.png" id="2_gmlin"]
 [ext_resource type="Shader" uid="uid://d0l6dtfm713ul" path="res://scenes/player/grapple_line.gdshader" id="3_gmlin"]
 [ext_resource type="Script" uid="uid://bsj816gw2rkqg" path="res://scenes/player/grapple_line.gd" id="4_lvxji"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lvxji"]
+atlas = ExtResource("2_gmlin")
+region = Rect2(0, 0, 75, 75)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dovo2"]
 size = Vector2(40, 70)
@@ -20,7 +24,7 @@ script = ExtResource("2_dovo2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(4.76837e-07, 5.36442e-07)
-texture = ExtResource("2_gmlin")
+texture = SubResource("AtlasTexture_lvxji")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 3)

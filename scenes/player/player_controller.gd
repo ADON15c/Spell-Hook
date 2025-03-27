@@ -26,6 +26,7 @@ var GRAPPLE_BOOST: float = 1.0    # velocity multiplier from starting grapple
 const DEBUG_DRAW: bool = false
 
 var facing_left: bool = false
+var jumping: bool = false
 var grapple_pos: Vector2
 var grapple_angle: float = -PI/2
 var grapple_angle_fixed: bool = false
@@ -46,6 +47,8 @@ func _input(event):
 func _process(_delta):
 	if not grapple_angle_fixed:
 		var input_dir = Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down"))
+		input_dir.x = sign(input_dir.x)
+		input_dir.y = sign(input_dir.y)
 		grapple_angle = input_dir.angle()
 
 func _physics_process(delta):
@@ -99,6 +102,13 @@ func _physics_process_normal(delta):
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
+		jumping = true
+	if jumping and not Input.is_action_pressed("jump"):
+		velocity.y = max(velocity.y,JUMP_VELOCITY/4.0)
+		jumping = false
+	if jumping and velocity.y >= 0:
+		jumping = false
+	print(jumping)
 	
 	# Horizontal Movement
 	var direction = Input.get_axis("move_left", "move_right")
@@ -114,6 +124,13 @@ func _physics_process_normal(delta):
 	else:
 		velocity.x = move_toward(velocity.x, RUN_MAX * direction, RUN_ACCEL * delta)
 	
+	if is_on_floor():
+		($Sprite2D.texture as AtlasTexture).region.position = Vector2(0,0)
+	elif velocity.y < 0:
+		($Sprite2D.texture as AtlasTexture).region.position = Vector2(0,75)
+	else:
+		($Sprite2D.texture as AtlasTexture).region.position = Vector2(0,150)
+	
 	move_and_slide()
 	queue_redraw()
 
@@ -123,6 +140,8 @@ func _physics_process_normal(delta):
 # --------------------------
 
 func _physics_process_grapple(delta):
+	($Sprite2D.texture as AtlasTexture).region.position = Vector2(0,225)
+	
 	var polar_pos: Vector2 = cartesian_to_polar(position)
 	polar_pos = Vector2(grapple_dist, polar_pos.y + (angular_velocity/polar_pos.x)*delta)
 	var new_position: Vector2 = polar_to_cartesian(polar_pos)
