@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bcnj8uenxu0vp"]
+[gd_scene load_steps=4 format=3 uid="uid://bcnj8uenxu0vp"]
 
 [ext_resource type="Script" uid="uid://85558psalbo7" path="res://scenes/interactibles/jump_pad/jump_pad.gd" id="1_3fcvo"]
+[ext_resource type="Texture2D" uid="uid://bej0b427fh6v1" path="res://scenes/interactibles/jump_pad/jump_pad.png" id="2_56c6u"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5iack"]
 size = Vector2(60, 15)
@@ -8,8 +9,8 @@ size = Vector2(60, 15)
 [node name="Jump Pad" type="Node2D"]
 script = ExtResource("1_3fcvo")
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
-polygon = PackedVector2Array(-30, 30, 30, 30, 30, 15, -30, 15)
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_56c6u")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0
