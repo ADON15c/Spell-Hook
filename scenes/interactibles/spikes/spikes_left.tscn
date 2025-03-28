@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6ptl3gifp1ee"]
+
+[ext_resource type="PackedScene" uid="uid://p6e1g3dfrqof" path="res://scenes/interactibles/spikes/spikes.tscn" id="1_7kbqa"]
+
+[node name="SpikesLeft" type="Node2D"]
+
+[node name="Spikes" parent="." instance=ExtResource("1_7kbqa")]
+rotation = 4.71239
+facing = 3

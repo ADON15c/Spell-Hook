@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bn4o1vve7l5nm"]
+
+[ext_resource type="PackedScene" uid="uid://p6e1g3dfrqof" path="res://scenes/interactibles/spikes/spikes.tscn" id="1_xef3n"]
+
+[node name="SpikesUp" type="Node2D"]
+
+[node name="Spikes" parent="." instance=ExtResource("1_xef3n")]

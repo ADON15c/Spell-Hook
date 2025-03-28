@@ -41,8 +41,7 @@ var angular_velocity: float
 
 func _input(event):
 	if event.is_action_pressed("restart"):
-		death.emit()
-		queue_free()
+		kill()
 
 func _process(_delta):
 	if not grapple_angle_fixed:
@@ -277,3 +276,7 @@ func set_velocity_y(new_y: float):
 			angular_velocity_to_velocity()
 			velocity.y = new_y
 			velocity_to_angular_velocity()
+
+func kill():
+	death.emit()
+	queue_free()
