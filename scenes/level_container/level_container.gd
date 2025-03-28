@@ -21,22 +21,15 @@ func set_camera_bounds(bounds: Rect2):
 	camera.limit_top = round(bounds.position.y)
 	camera.limit_bottom = round(bounds.size.y + bounds.position.y)
 
-func load_level(level_scene: PackedScene):
-	current_level = current_level_scene.instantiate()
+func load_level(new_level_scene: PackedScene):
+	current_level = new_level_scene.instantiate()
 	add_child(current_level)
 	
 	if current_level.has_player:
 		var remote_transform: RemoteTransform2D = RemoteTransform2D.new()
 		remote_transform.remote_path = camera.get_path()
 		current_level.player.add_child(remote_transform)
-		
-		if current_level.player.has_signal("death"):
-			current_level.player.death.connect(restart)
 	
 	if current_level.has_rooms:
 		current_level.changed_room.connect(set_camera_bounds)
 		set_camera_bounds(current_level.current_room.bounds)
-
-func restart():
-	current_level.queue_free()
-	load_level(current_level_scene)

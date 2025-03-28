@@ -74,3 +74,4 @@ restart={
 2d_physics/layer_1="solids"
 2d_physics/layer_2="actors"
 2d_physics/layer_3="player"
+2d_physics/layer_4="room"
