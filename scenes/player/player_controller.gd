@@ -200,6 +200,7 @@ func grapple_raycast() -> Dictionary:
 	var space_state = get_world_2d().direct_space_state
 	# use global coordinates, not local to node
 	var query = PhysicsRayQueryParameters2D.create(to_global(Vector2(0, 0)), to_global(Vector2(GRAPPLE_RANGE, 0).rotated(grapple_angle)))
+	query.collision_mask = 16 # grapple_surface
 	var result = space_state.intersect_ray(query)
 	
 	if result.is_empty():

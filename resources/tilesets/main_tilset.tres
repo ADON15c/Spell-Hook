@@ -414,7 +414,7 @@ scenes/12/scene = ExtResource("5_bx50x")
 
 [resource]
 tile_size = Vector2i(60, 60)
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 17
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Tiles"
 terrain_set_0/terrain_0/color = Color(0.11477, 0.440315, 0.410552, 1)

@@ -57,7 +57,7 @@ func spawn_player():
 		return
 
 	player = player_scene.instantiate()
-	add_child(player)
+	call_deferred("add_child", player)
 	if player.has_signal("death"):
 		player.death.connect(restart)
 	player.position = spawn_point
