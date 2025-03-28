@@ -37,8 +37,12 @@ func _ready():
 					new_room = room
 			var room_body_exited = func(body: Node2D):
 				if body == player and new_room != null and room == current_room:
-					current_room = new_room
+					spawn_point = new_room.spawnpoint.position
+					current_room.deactivate()
+					new_room.activate()
 					changed_room.emit(new_room.bounds)
+					
+					current_room = new_room
 					new_room = null
 					
 			room.body_entered.connect(room_body_entered)

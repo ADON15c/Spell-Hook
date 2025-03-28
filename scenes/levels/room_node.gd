@@ -12,6 +12,7 @@ class_name Room
 
 @export var spawnpoint: Marker2D
 var bounds: Rect2
+var active: bool = false
 
 func _ready():
 	collision_layer = 8
@@ -46,3 +47,15 @@ func check_valid() -> Array[String]:
 			errors.append("Room is smaller than camera")
 	
 	return errors
+
+func activate():
+	for child: Node in get_children():
+		if child.is_in_group("Trigger"):
+			child.monitoring = true
+	active = true
+
+func deactivate():
+	for child: Node in get_children():
+		if child.is_in_group("Trigger"):
+			child.monitoring = false
+	active = true

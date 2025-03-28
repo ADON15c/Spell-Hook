@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://olo8x5uy3it7"]
+
+[ext_resource type="Script" uid="uid://cvunnmxoj04ho" path="res://scenes/spawnpoint_trigger/spawnpoint_trigger.gd" id="1_1r7je"]
+
+[node name="SpawnpointTrigger" type="Area2D" groups=["Trigger"]]
+collision_layer = 0
+collision_mask = 4
+monitoring = false
+script = ExtResource("1_1r7je")
