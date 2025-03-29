@@ -1,0 +1,39 @@
+[gd_scene load_steps=8 format=3 uid="uid://duo817o8e4bit"]
+
+[ext_resource type="Texture2D" uid="uid://dcy6flunbmbaw" path="res://scenes/interactibles/rotator/rotator.png" id="1_isv1e"]
+[ext_resource type="Script" uid="uid://420grun7rq8y" path="res://scenes/interactibles/rotator/rotator.gd" id="1_yehx1"]
+[ext_resource type="Script" uid="uid://cy7vjnixmfgbs" path="res://scenes/interactibles/rotator/rotator_static_body_2d.gd" id="3_rql74"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yehx1"]
+atlas = ExtResource("1_isv1e")
+region = Rect2(0, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rql74"]
+atlas = ExtResource("1_isv1e")
+region = Rect2(60, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_67d3o"]
+atlas = ExtResource("1_isv1e")
+region = Rect2(120, 0, 60, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rql74"]
+size = Vector2(60, 60)
+
+[node name="Rotator" type="Node2D"]
+script = ExtResource("1_yehx1")
+
+[node name="SpriteBase" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_yehx1")
+
+[node name="SpriteCenter" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_rql74")
+
+[node name="SpriteLimit" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_67d3o")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 17
+script = ExtResource("3_rql74")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_rql74")

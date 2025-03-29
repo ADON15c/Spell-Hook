@@ -1,16 +1,10 @@
 extends CharacterBody2D
 class_name Player
 
-enum State {NORMAL, GRAPPLE}
+enum State {NORMAL, GRAPPLE, GRAPPLE_ROTATOR}
 signal death
 
-# ----------------------------------------
-# ------ MEMBER VARIABLES/CONSTANTS ------
-# ----------------------------------------
-
-@onready var grapple_line: Line2D = $GrappleLine
-
-var player_state: State = State.NORMAL
+#region PLAYER SETTINGS
 
 var RUN_ACCEL: float = 2700.0     # Run acceleration speed. Also acts as decceleration speed when changing direction
 var RUN_REDUCE: float = 1350.0    # Speed reduction from going over RUN_MAX
@@ -25,19 +19,31 @@ var GRAPPLE_BOOST: float = 1.0    # velocity multiplier from starting grapple
 
 const DEBUG_DRAW: bool = false
 
-var facing_left: bool = false
+#endregion
+
+#region MEMBER VARIABLES
+
+@onready var grapple_line: Line2D = $GrappleLine
+
+var player_state: State = State.NORMAL
+
 var jumping: bool = false
+
 var grapple_pos: Vector2
 var grapple_angle: float = -PI/2
 var grapple_angle_fixed: bool = false
-
 var grapple_dist: float
 var angular_velocity: float
+var grapple_effect_info: Dictionary 
 
+var grapple_rotator_distance: float
 
-# -----------------------
-# ------ BUILT-INS ------
-# -----------------------
+var facing_left: bool = false
+var dead: bool = false
+
+#endregion
+
+#region NODE VIRTUALS
 
 func _input(event):
 	if event.is_action_pressed("restart"):
@@ -56,12 +62,14 @@ func _physics_process(delta):
 			_physics_process_normal(delta)
 		State.GRAPPLE:
 			_physics_process_grapple(delta)
+		State.GRAPPLE_ROTATOR:
+			_physics_process_grapple_rotator(delta)
 	
-	if player_state == State.GRAPPLE:
+	if is_grappling():
 		grapple_line.points[1] = to_local(grapple_pos)
 
 func _draw():
-	if player_state != State.GRAPPLE:
+	if !is_grappling():
 		draw_line(Vector2(0,0), Vector2(GRAPPLE_RANGE, 0).rotated(grapple_angle), Color.GRAY, 2)
 		#var result = grapple_raycast()
 		#if result.is_empty():
@@ -79,16 +87,15 @@ func _draw():
 		draw_line(Vector2(0, 0), Vector2(0, velocity.y/5), Color.RED, 2)
 		draw_line(Vector2(0, 0), velocity/5, Color.BLUE, 2)
 		
-		if player_state == State.GRAPPLE:
+		if is_grappling():
 			var offset_pos: Vector2 = position - grapple_pos
 			var tangent = Vector2(offset_pos.x + 1, offset_pos.y-(offset_pos.x/offset_pos.y)) - offset_pos
 
 			draw_line(Vector2(0,0), tangent.normalized()*100, Color.BLUE, 2)
 
+#endregion
 
-# --------------------------
-# ------ NORMAL STATE ------
-# --------------------------
+#region STATE NORMAL
 
 func _physics_process_normal(delta):
 	if Input.is_action_just_pressed("grapple"):
@@ -132,20 +139,18 @@ func _physics_process_normal(delta):
 	move_and_slide()
 	queue_redraw()
 
+#endregion
 
-# --------------------------
-# ------ GRAPPLE STATE ------
-# --------------------------
+#region GRAPPLE HELPERS
 
-func _physics_process_grapple(delta):
-	($Sprite2D.texture as AtlasTexture).region.position = Vector2(0,225)
-	
+func grapple_move(delta: float) -> bool:
 	var polar_pos: Vector2 = cartesian_to_polar(position)
 	polar_pos = Vector2(grapple_dist, polar_pos.y + (angular_velocity/polar_pos.x)*delta)
 	var new_position: Vector2 = polar_to_cartesian(polar_pos)
 	var test_collision: KinematicCollision2D = KinematicCollision2D.new()
+	var collided: bool = test_move(transform, new_position-position, test_collision)
 	
-	if test_move(transform, new_position-position, test_collision): # Handle collision
+	if collided: # Handle collision
 		angular_velocity = 0
 		var normal: Vector2 = test_collision.get_normal()
 		position += test_collision.get_travel()
@@ -166,19 +171,34 @@ func _physics_process_grapple(delta):
 			position = shifted_position + grapple_pos
 	else:
 		position = new_position
+	
+	return !collided
 
-	if Input.is_action_just_released("grapple"):
-		angular_velocity_to_velocity()
-		player_state = State.NORMAL
-		grapple_line.visible = false
+func grapple_raycast() -> Dictionary:
+	var space_state = get_world_2d().direct_space_state
+	# use global coordinates, not local to node
+	var query = PhysicsRayQueryParameters2D.create(to_global(Vector2(0, 0)), to_global(Vector2(GRAPPLE_RANGE, 0).rotated(grapple_angle)))
+	query.collision_mask = 16 # grapple_surface
+	var result = space_state.intersect_ray(query)
+	if result.is_empty():
+		return {}
 	
-	# Add the gravity.
-	if not is_on_floor():
-		angular_velocity_to_velocity()
-		velocity.y = move_toward(velocity.y, MAX_FALL, GRAVITY * delta)
-		velocity_to_angular_velocity()
+	var grapple_info = {}
+	var collider: Node2D = result.collider
+	if collider is TileMapLayer:
+		var tilemap: TileMapLayer = collider as TileMapLayer
+		grapple_info["position"] = tilemap.map_to_local(tilemap.get_coords_for_body_rid(result.rid))
+	else:
+		grapple_info["position"] = collider.global_position
 	
-	queue_redraw()
+	if collider.has_method("get_grapple_info"):
+		var collider_grapple_info = collider.get_grapple_info()
+		grapple_info["state"] = collider_grapple_info["state"]
+		grapple_effect_info = collider_grapple_info["grapple_effect_info"]
+	else:
+		grapple_info["state"] = Player.State.GRAPPLE
+	
+	return grapple_info
 
 func create_grapple():
 	var result = grapple_raycast()
@@ -190,37 +210,22 @@ func create_grapple():
 	grapple_line.visible = true
 	grapple_line.points[1] = to_local(grapple_pos)
 	grapple_dist = grapple_pos.distance_to(position)
-	player_state = State.GRAPPLE
-
-	velocity_to_angular_velocity()
-	angular_velocity *= GRAPPLE_BOOST
+	player_state = result.state
+	
+	# TODO: If I implement a proper state machine, add this code to the start function for each state
+	match player_state:
+		State.GRAPPLE:
+			velocity_to_angular_velocity()
+			angular_velocity *= GRAPPLE_BOOST
+		State.GRAPPLE_ROTATOR:
+			grapple_rotator_distance = grapple_effect_info["rotation_amount"]
+			angular_velocity=grapple_dist*grapple_effect_info["rotation_speed"]*2*PI # grapple_effect_info["rotation_amount"]
+	
 	jumping = false
-
-func grapple_raycast() -> Dictionary:
-	var space_state = get_world_2d().direct_space_state
-	# use global coordinates, not local to node
-	var query = PhysicsRayQueryParameters2D.create(to_global(Vector2(0, 0)), to_global(Vector2(GRAPPLE_RANGE, 0).rotated(grapple_angle)))
-	query.collision_mask = 16 # grapple_surface
-	var result = space_state.intersect_ray(query)
-	
-	if result.is_empty():
-		return {}
-	
-	var output_pos: Vector2
-		
-	if result.collider is TileMapLayer:
-		var tilemap: TileMapLayer = result.collider as TileMapLayer
-		output_pos = tilemap.map_to_local(tilemap.get_coords_for_body_rid(result.rid))
-	else:
-		output_pos = result.position
-	
-	return {"position": output_pos}
-
 
 func velocity_to_angular_velocity():
 	var offset_pos = position - grapple_pos # Position relative to grapple
 	var tangent = offset_pos.rotated(PI/2)
-	# Vector Projection Formula
 	var velocity_projected = velocity.project(tangent)
 	var angular_velocity_magnitude = velocity_projected.length()
 	
@@ -242,10 +247,48 @@ func cartesian_to_polar(cartesian: Vector2) -> Vector2:
 func polar_to_cartesian(polar: Vector2) -> Vector2:
 	return Vector2.RIGHT.rotated(polar.y)*polar.x + grapple_pos
 
+#endregion
 
-# -------------------
-# ------ OTHER ------
-# -------------------
+#region STATE GRAPPLE
+
+func _physics_process_grapple(delta):
+	($Sprite2D.texture as AtlasTexture).region.position = Vector2(0,225)
+	
+	# Add the gravity.
+	if not is_on_floor():
+		angular_velocity_to_velocity()
+		velocity.y = move_toward(velocity.y, MAX_FALL, GRAVITY * delta)
+		velocity_to_angular_velocity()
+		
+	grapple_move(delta)
+
+	if Input.is_action_just_released("grapple"):
+		angular_velocity_to_velocity()
+		player_state = State.NORMAL
+		grapple_line.visible = false
+
+#endregion
+
+#region STATE GRAPPLE_ROTATOR
+
+func _physics_process_grapple_rotator(delta):
+	($Sprite2D.texture as AtlasTexture).region.position = Vector2(0,225)
+	
+	#angular_velocity = 1000.0
+	var collision = !grapple_move(delta)
+	var rotation_distance: float = angular_velocity*delta/grapple_dist
+	grapple_rotator_distance -= abs(rotation_distance)
+	grapple_effect_info["node"].rotate_center(rotation_distance)
+	
+	if collision || grapple_rotator_distance < 0:
+		angular_velocity_to_velocity()
+		player_state = State.NORMAL
+		grapple_line.visible = false
+		grapple_effect_info["node"].reset_center_rotation()
+
+#endregion
+
+#region OTHER
 
 func face(left: bool):
 	facing_left = left
@@ -279,5 +322,12 @@ func set_velocity_y(new_y: float):
 			velocity_to_angular_velocity()
 
 func kill():
-	death.emit()
-	queue_free()
+	if not dead:
+		dead = true
+		death.emit()
+		queue_free()
+
+func is_grappling():
+	return player_state in [State.GRAPPLE, State.GRAPPLE_ROTATOR]
+
+#endregion
