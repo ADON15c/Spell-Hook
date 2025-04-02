@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://bnhkmf37qlb7t"]
+
+[ext_resource type="PackedScene" uid="uid://d2e5ya28rpubf" path="res://scenes/ui/Textbox/textbox.tscn" id="1_37kl0"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Textbox" parent="." instance=ExtResource("1_37kl0")]
+offset_left = 120.0
+offset_top = 720.0
+offset_right = 1800.0
+offset_bottom = 1020.0
+text = "The quick brown fox jumps over the lazy dog and then does some other stuff like jumping over the not lazy dog since I need to make this sentence longer to show how much will fit"

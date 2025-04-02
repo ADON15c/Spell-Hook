@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://c83garww7dfog"]
+
+[ext_resource type="Texture2D" uid="uid://ng7g0n8r3qi5" path="res://scenes/main_menu/cover.png" id="1_fsom3"]
+[ext_resource type="Script" uid="uid://betay46mtfkuf" path="res://scenes/main_menu/main_menu.gd" id="1_ob46e"]
+[ext_resource type="PackedScene" uid="uid://dctjowtd2y3en" path="res://scenes/ui/select/select.tscn" id="2_0ebjn"]
+[ext_resource type="Texture2D" uid="uid://dpscujlihj0hl" path="res://scenes/main_menu/title.png" id="3_uqeha"]
+
+[node name="MainMenu" type="Node2D"]
+script = ExtResource("1_ob46e")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+texture = ExtResource("1_fsom3")
+
+[node name="Title" type="Sprite2D" parent="."]
+position = Vector2(350, 964)
+scale = Vector2(1.28125, 1.28125)
+texture = ExtResource("3_uqeha")
+
+[node name="Select" parent="." instance=ExtResource("2_0ebjn")]
+offset_left = 1500.0
+offset_top = 660.0
+offset_right = 1860.0
+offset_bottom = 1012.0
+buttons = Dictionary[String, String]({
+"level1": "Level 1",
+"level2": "Level 2",
+"quit": "Quit"
+})
