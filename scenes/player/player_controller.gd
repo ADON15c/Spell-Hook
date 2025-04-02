@@ -12,9 +12,9 @@ var RUN_MAX: float = 325.0        # Max speed from running
 
 var GRAVITY: float = 2000.0       # How fast falling speed increases
 var MAX_FALL: float = 1000.0      # Max falling speed
-var JUMP_VELOCITY: float = -700.0 # Velocity Applied on Jump
+var JUMP_VELOCITY: float = -900.0 # Velocity Applied on Jump
 
-var GRAPPLE_RANGE: float = 500.0  # Grapple Hook Range
+var GRAPPLE_RANGE: float = 300.0  # Grapple Hook Range
 var GRAPPLE_BOOST: float = 1.0    # velocity multiplier from starting grapple
 
 const DEBUG_DRAW: bool = false

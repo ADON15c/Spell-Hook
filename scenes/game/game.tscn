@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://c0cou1ppjv4q"]
 
+[ext_resource type="PackedScene" uid="uid://beteb2hl5sngd" path="res://scenes/levels/level_1/level_1.tscn" id="2_7h61r"]
 [ext_resource type="PackedScene" uid="uid://c4kuqq8013dwp" path="res://scenes/level_container/level_container.tscn" id="3_0sr1o"]
-[ext_resource type="PackedScene" uid="uid://c50net3vfjitv" path="res://scenes/levels/test_level/test_level.tscn" id="3_kelw5"]
 
 [node name="Game" type="Node2D"]
 
 [node name="LevelContainer" parent="." instance=ExtResource("3_0sr1o")]
-current_level_scene = ExtResource("3_kelw5")
+current_level_scene = ExtResource("2_7h61r")
