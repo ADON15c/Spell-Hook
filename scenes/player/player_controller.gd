@@ -51,10 +51,7 @@ func _input(event):
 
 func _process(_delta):
 	if not grapple_angle_fixed:
-		var input_dir = Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down"))
-		input_dir.x = sign(input_dir.x)
-		input_dir.y = sign(input_dir.y)
-		grapple_angle = input_dir.angle()
+		grapple_angle = get_input_dir().angle()
 
 func _physics_process(delta):
 	match player_state:
@@ -69,7 +66,7 @@ func _physics_process(delta):
 		grapple_line.points[1] = to_local(grapple_pos)
 
 func _draw():
-	if !is_grappling():
+	if !is_grappling() and get_input_dir() != Vector2(0.0,0.0):
 		draw_line(Vector2(0,0), Vector2(GRAPPLE_RANGE, 0).rotated(grapple_angle), Color.GRAY, 2)
 		#var result = grapple_raycast()
 		#if result.is_empty():
@@ -329,5 +326,11 @@ func kill():
 
 func is_grappling():
 	return player_state in [State.GRAPPLE, State.GRAPPLE_ROTATOR]
+
+func get_input_dir():
+	var input_dir = Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down"))
+	input_dir.x = sign(input_dir.x)
+	input_dir.y = sign(input_dir.y)
+	return input_dir
 
 #endregion
