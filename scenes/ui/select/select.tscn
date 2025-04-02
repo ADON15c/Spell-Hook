@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://dctjowtd2y3en"]
+
+[ext_resource type="Texture2D" uid="uid://e6bveraxw68r" path="res://scenes/ui/select/background.png" id="1_e2kyn"]
+[ext_resource type="Script" uid="uid://dpvhymqldc7bd" path="res://scenes/ui/select/select.gd" id="2_syl4h"]
+
+[node name="Select" type="NinePatchRect"]
+offset_right = 360.0
+offset_bottom = 600.0
+texture = ExtResource("1_e2kyn")
+patch_margin_left = 60
+patch_margin_top = 60
+patch_margin_right = 60
+patch_margin_bottom = 60
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+script = ExtResource("2_syl4h")
+buttons = Dictionary[String, String]({
+"how": "How",
+"what": "What"
+})
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 45.0
+offset_top = 60.0
+offset_right = -45.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1

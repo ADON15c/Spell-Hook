@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://d2e5ya28rpubf"]
 
-[ext_resource type="Texture2D" uid="uid://c3bck248b5kt8" path="res://scenes/ui/Textbox/background.png" id="1_7tjrf"]
-[ext_resource type="Script" uid="uid://0lss7o4oly81" path="res://scenes/ui/Textbox/textbox.gd" id="2_cjpqd"]
+[ext_resource type="Texture2D" uid="uid://c3bck248b5kt8" path="res://scenes/ui/textbox/background.png" id="1_7tjrf"]
+[ext_resource type="Script" uid="uid://0lss7o4oly81" path="res://scenes/ui/textbox/textbox.gd" id="2_cjpqd"]
 [ext_resource type="FontFile" uid="uid://ulc1xujlwna6" path="res://resources/fonts/Super Lobster.ttf" id="3_6cuc8"]
 
 [node name="Textbox" type="NinePatchRect"]
@@ -29,6 +29,5 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("3_6cuc8")
 theme_override_font_sizes/font_size = 60
-text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
 autowrap_mode = 3
 clip_text = true

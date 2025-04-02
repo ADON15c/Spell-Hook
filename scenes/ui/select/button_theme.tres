@@ -1,0 +1,18 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://d0gm6sgup7dnv"]
+
+[ext_resource type="FontFile" uid="uid://ulc1xujlwna6" path="res://resources/fonts/Super Lobster.ttf" id="1_kum4l"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kum4l"]
+bg_color = Color(0.686275, 0.309804, 0.741176, 1)
+border_color = Color(0.576471, 0.972549, 0.968627, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[resource]
+Button/colors/font_color = Color(1, 0.980392, 0.796078, 1)
+Button/colors/font_hover_color = Color(0.576471, 0.972549, 0.968627, 1)
+Button/font_sizes/font_size = 60
+Button/fonts/font = ExtResource("1_kum4l")
+Button/styles/focus = SubResource("StyleBoxFlat_kum4l")
