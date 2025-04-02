@@ -25,11 +25,15 @@ func load_level(new_level_scene: PackedScene):
 	current_level = new_level_scene.instantiate()
 	add_child(current_level)
 	
+	current_level.spawned_player.connect(on_player_spawn)
 	if current_level.has_player:
-		var remote_transform: RemoteTransform2D = RemoteTransform2D.new()
-		remote_transform.remote_path = camera.get_path()
-		current_level.player.add_child(remote_transform)
+		on_player_spawn(current_level.player)
 	
 	if current_level.has_rooms:
 		current_level.changed_room.connect(set_camera_bounds)
 		set_camera_bounds(current_level.current_room.bounds)
+
+func on_player_spawn(player: Node):
+	var remote_transform: RemoteTransform2D = RemoteTransform2D.new()
+	remote_transform.remote_path = camera.get_path()
+	player.add_child(remote_transform)
