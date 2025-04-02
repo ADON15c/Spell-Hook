@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://d2e5ya28rpubf"]
+[gd_scene load_steps=4 format=3 uid="uid://d2e5ya28rpubf"]
 
 [ext_resource type="Texture2D" uid="uid://c3bck248b5kt8" path="res://scenes/ui/Textbox/background.png" id="1_7tjrf"]
+[ext_resource type="Script" uid="uid://0lss7o4oly81" path="res://scenes/ui/Textbox/textbox.gd" id="2_cjpqd"]
+[ext_resource type="FontFile" uid="uid://ulc1xujlwna6" path="res://resources/fonts/Super Lobster.ttf" id="3_6cuc8"]
 
 [node name="Textbox" type="NinePatchRect"]
 offset_right = 780.0
@@ -12,19 +14,21 @@ patch_margin_right = 60
 patch_margin_bottom = 60
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
+script = ExtResource("2_cjpqd")
 
-[node name="RichTextLabel" type="Label" parent="."]
+[node name="Label" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 35.0
+offset_left = 45.0
 offset_top = 60.0
-offset_right = -35.0
+offset_right = -45.0
 offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 30
+theme_override_fonts/font = ExtResource("3_6cuc8")
+theme_override_font_sizes/font_size = 60
 text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
 autowrap_mode = 3
 clip_text = true
