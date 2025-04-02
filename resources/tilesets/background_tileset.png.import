@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cmgv826b1pjb5"
-path="res://.godot/imported/background_tileset.png-519b64fd942c236cf6f53a0ee0268a8d.ctex"
+path="res://.godot/imported/background_tileset.png-05d08a1325edb4fa9d7371aa38bcbd0f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/background_tileset.png"
-dest_files=["res://.godot/imported/background_tileset.png-519b64fd942c236cf6f53a0ee0268a8d.ctex"]
+source_file="res://resources/tilesets/background_tileset.png"
+dest_files=["res://.godot/imported/background_tileset.png-05d08a1325edb4fa9d7371aa38bcbd0f.ctex"]
 
 [params]
 
