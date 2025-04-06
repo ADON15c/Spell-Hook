@@ -22,6 +22,7 @@ func menu_select(id: String):
 			get_tree().paused = false
 			visible = false
 		"mainMenu":
-			get_tree().change_scene_to_file("res://scenes/main_menu/main_menu.tscn")
+			get_tree().paused = false
+			SceneSwitcher.switch_scene(load("res://scenes/main_menu/main_menu.tscn"))
 		"quitGame":
 			get_tree().quit()
