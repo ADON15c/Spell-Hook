@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dctjowtd2y3en"]
 
-[ext_resource type="Texture2D" uid="uid://e6bveraxw68r" path="res://scenes/ui/select/background.png" id="1_e2kyn"]
+[ext_resource type="Texture2D" uid="uid://e6bveraxw68r" path="res://resources/ui/assets/textbox_background.png" id="1_e2kyn"]
 [ext_resource type="Script" uid="uid://dpvhymqldc7bd" path="res://scenes/ui/select/select.gd" id="2_syl4h"]
 
 [node name="Select" type="NinePatchRect"]
@@ -14,10 +14,6 @@ patch_margin_bottom = 60
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 script = ExtResource("2_syl4h")
-buttons = Dictionary[String, String]({
-"how": "How",
-"what": "What"
-})
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1

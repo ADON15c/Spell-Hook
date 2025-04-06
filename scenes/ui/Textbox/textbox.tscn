@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://d2e5ya28rpubf"]
 
-[ext_resource type="Texture2D" uid="uid://c3bck248b5kt8" path="res://scenes/ui/textbox/background.png" id="1_7tjrf"]
-[ext_resource type="Script" uid="uid://0lss7o4oly81" path="res://scenes/ui/textbox/textbox.gd" id="2_cjpqd"]
-[ext_resource type="FontFile" uid="uid://ulc1xujlwna6" path="res://resources/fonts/Super Lobster.ttf" id="3_6cuc8"]
+[ext_resource type="Texture2D" uid="uid://c3bck248b5kt8" path="res://scenes/ui/Textbox/background.png" id="1_7tjrf"]
+[ext_resource type="Script" uid="uid://0lss7o4oly81" path="res://scenes/ui/Textbox/textbox.gd" id="2_cjpqd"]
+[ext_resource type="Theme" uid="uid://d0gm6sgup7dnv" path="res://resources/ui/ui_theme.tres" id="3_6cuc8"]
 
 [node name="Textbox" type="NinePatchRect"]
 offset_right = 780.0
@@ -27,7 +27,6 @@ offset_right = -45.0
 offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("3_6cuc8")
-theme_override_font_sizes/font_size = 60
+theme = ExtResource("3_6cuc8")
 autowrap_mode = 3
 clip_text = true
