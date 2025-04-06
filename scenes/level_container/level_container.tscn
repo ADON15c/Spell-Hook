@@ -1,8 +1,48 @@
-[gd_scene load_steps=2 format=3 uid="uid://c4kuqq8013dwp"]
+[gd_scene load_steps=4 format=3 uid="uid://c4kuqq8013dwp"]
 
 [ext_resource type="Script" uid="uid://c0wcblvucmhkd" path="res://scenes/level_container/level_container.gd" id="1_lja4e"]
+[ext_resource type="PackedScene" uid="uid://dctjowtd2y3en" path="res://scenes/ui/select/select.tscn" id="2_gjg6v"]
+[ext_resource type="Script" uid="uid://cg1d32y2bhc0f" path="res://scenes/level_container/pause_menu.gd" id="2_yl73j"]
 
 [node name="LevelContainer" type="Node2D"]
 script = ExtResource("1_lja4e")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="PauseMenu" type="CanvasLayer" parent="."]
+process_mode = 3
+script = ExtResource("2_yl73j")
+
+[node name="ColorRect" type="ColorRect" parent="PauseMenu"]
+process_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.2)
+
+[node name="Select" parent="PauseMenu" instance=ExtResource("2_gjg6v")]
+process_mode = 2
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -270.0
+offset_top = -240.0
+offset_right = 270.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+button_ordering = Dictionary[String, int]({
+"mainMenu": 2,
+"quitGame": 3,
+"unpause": 1
+})
+button_labels = Dictionary[String, String]({
+"mainMenu": "Quit to Main Menu",
+"quitGame": "Quit to Desktop",
+"unpause": "Unpause"
+})
+clickable = Array[String](["unpause", "mainMenu", "quitGame"])

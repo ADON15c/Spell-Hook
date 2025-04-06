@@ -22,8 +22,14 @@ offset_left = 1500.0
 offset_top = 660.0
 offset_right = 1860.0
 offset_bottom = 1012.0
-buttons = Dictionary[String, String]({
+button_ordering = Dictionary[String, int]({
+"level1": 0,
+"level2": 1,
+"quit": 2
+})
+button_labels = Dictionary[String, String]({
 "level1": "Level 1",
 "level2": "Level 2",
 "quit": "Quit"
 })
+clickable = Array[String](["level1", "level2", "quit"])
