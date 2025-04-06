@@ -63,7 +63,7 @@ func _physics_process(delta):
 			_physics_process_grapple_rotator(delta)
 	
 	if is_grappling():
-		grapple_line.points[1] = to_local(grapple_pos)
+		grapple_line.end_point = to_local(grapple_pos)
 
 func _draw():
 	if !is_grappling() and get_input_dir() != Vector2(0.0,0.0):
@@ -204,8 +204,8 @@ func create_grapple():
 	else:
 		grapple_pos = result.position
 	
-	grapple_line.visible = true
-	grapple_line.points[1] = to_local(grapple_pos)
+	grapple_line.set_visibility(true)
+	grapple_line.end_point = to_local(grapple_pos)
 	grapple_dist = grapple_pos.distance_to(position)
 	player_state = result.state
 	
@@ -262,7 +262,7 @@ func _physics_process_grapple(delta):
 	if Input.is_action_just_released("grapple"):
 		angular_velocity_to_velocity()
 		player_state = State.NORMAL
-		grapple_line.visible = false
+		grapple_line.set_visibility(false)
 
 #endregion
 
@@ -280,7 +280,7 @@ func _physics_process_grapple_rotator(delta):
 	if collision || grapple_rotator_distance < 0:
 		angular_velocity_to_velocity()
 		player_state = State.NORMAL
-		grapple_line.visible = false
+		grapple_line.set_visibility(false)
 		grapple_effect_info["node"].reset_center_rotation()
 
 #endregion
