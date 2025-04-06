@@ -1,0 +1,66 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbcb5mpnp5fc"]
+
+[ext_resource type="Script" uid="uid://cgsguabfewb2f" path="res://scenes/cutscene_player/cutscene_player.gd" id="1_w5sug"]
+[ext_resource type="Texture2D" uid="uid://egbf2cumngv4" path="res://resources/cutscenes/images/test_1.png" id="2_w5sug"]
+[ext_resource type="Theme" uid="uid://d0gm6sgup7dnv" path="res://resources/ui/ui_theme.tres" id="3_nstv7"]
+
+[node name="CutscenePlayer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_w5sug")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MarginContainer" type="Control" parent="."]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_w5sug")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MarginContainer2" type="Control" parent="."]
+layout_mode = 1
+anchor_top = 0.8
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="MarginContainer2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.2
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+theme = ExtResource("3_nstv7")
+text = "Hello There I am some cutscene text that is very long... Hello There I am some cutscene text that is very long... Hello There I am some cutscene text that is very long..."
+horizontal_alignment = 1
+autowrap_mode = 3
+clip_text = true

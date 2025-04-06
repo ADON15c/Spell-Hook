@@ -1,6 +1,7 @@
 extends Node
 
 var level_container: PackedScene = preload("res://scenes/level_container/level_container.tscn")
+var cutscene_player: PackedScene = preload("res://scenes/cutscene_player/cutscene_player.tscn")
 var current_scene: Node = null
 
 # Folliwng code from end of https://docs.godotengine.org/en/stable/tutorials/scripting/singletons_autoload.html accessed April 5th 2025
@@ -26,5 +27,15 @@ func _deferred_load_level(level: PackedScene):
 	current_scene.free()
 	current_scene = level_container.instantiate()
 	current_scene.current_level_scene = level
+	get_tree().root.add_child(current_scene)
+	get_tree().current_scene = current_scene
+
+func load_cutscene(cutscene: Cutscene):
+	_deferred_load_cutscene.call_deferred(cutscene)
+
+func _deferred_load_cutscene(cutscene: Cutscene):
+	current_scene.free()
+	current_scene = cutscene_player.instantiate()
+	current_scene.cutscene = cutscene
 	get_tree().root.add_child(current_scene)
 	get_tree().current_scene = current_scene
