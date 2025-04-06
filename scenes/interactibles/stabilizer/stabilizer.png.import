@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3bck248b5kt8"
-path="res://.godot/imported/background.png-e78e860c0d57eafaa4958fff9d7c37e2.ctex"
+uid="uid://b15b2668eaktg"
+path="res://.godot/imported/stabilizer.png-beefbd8d5b67e0e54bd4261ea56b3980.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/ui/Textbox/background.png"
-dest_files=["res://.godot/imported/background.png-e78e860c0d57eafaa4958fff9d7c37e2.ctex"]
+source_file="res://scenes/interactibles/stabilizer/stabilizer.png"
+dest_files=["res://.godot/imported/stabilizer.png-beefbd8d5b67e0e54bd4261ea56b3980.ctex"]
 
 [params]
 

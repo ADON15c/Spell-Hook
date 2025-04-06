@@ -12,8 +12,8 @@ func save_game():
 	save_file.store_line(json_data)
 
 func load_game():
-	var save_file = FileAccess.open("user://savegame.save", FileAccess.READ)
-	var json_data = JSON.new()
-	json_data.parse(save_file.get_as_text())
-	stabilizers_collected.assign(json_data.data["stabilizers_collected"])
-	print(stabilizers_collected)
+	if FileAccess.file_exists("user://savegame.save"):
+		var save_file = FileAccess.open("user://savegame.save", FileAccess.READ)
+		var json_data = JSON.new()
+		json_data.parse(save_file.get_as_text())
+		stabilizers_collected.assign(json_data.data["stabilizers_collected"])

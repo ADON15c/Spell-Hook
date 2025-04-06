@@ -3,6 +3,7 @@ class_name Player
 
 enum State {NORMAL, GRAPPLE, GRAPPLE_ROTATOR}
 signal death
+signal landed
 
 #region PLAYER SETTINGS
 
@@ -38,6 +39,7 @@ var grapple_effect_info: Dictionary
 
 var grapple_rotator_distance: float
 
+var grounded: bool = true
 var facing_left: bool = false
 var dead: bool = false
 
@@ -99,11 +101,14 @@ func _physics_process_normal(delta):
 		create_grapple()
 	
 	# Add the gravity.
-	if not is_on_floor():
+	if grounded == false and is_on_floor() == true:
+		landed.emit()
+	grounded = is_on_floor()
+	if not grounded:
 		velocity.y = move_toward(velocity.y, MAX_FALL, GRAVITY * delta)
 	
 	# Handle jump.
-	if Input.is_action_just_pressed("jump") and is_on_floor():
+	if Input.is_action_just_pressed("jump") and grounded:
 		velocity.y = JUMP_VELOCITY
 		jumping = true
 	if jumping and not Input.is_action_pressed("jump"):
@@ -126,7 +131,7 @@ func _physics_process_normal(delta):
 	else:
 		velocity.x = move_toward(velocity.x, RUN_MAX * direction, RUN_ACCEL * delta)
 	
-	if is_on_floor():
+	if grounded:
 		($Sprite2D.texture as AtlasTexture).region.position = Vector2(0,0)
 	elif velocity.y < 0:
 		($Sprite2D.texture as AtlasTexture).region.position = Vector2(0,75)
@@ -146,6 +151,7 @@ func grapple_move(delta: float) -> bool:
 	var new_position: Vector2 = polar_to_cartesian(polar_pos)
 	var test_collision: KinematicCollision2D = KinematicCollision2D.new()
 	var collided: bool = test_move(transform, new_position-position, test_collision)
+	var previously_grounded: bool = grounded
 	
 	if collided: # Handle collision
 		angular_velocity = 0
@@ -166,8 +172,15 @@ func grapple_move(delta: float) -> bool:
 			var shifted_position: Vector2 = position-grapple_pos
 			shifted_position.x = side_sign*sqrt(grapple_dist*grapple_dist - shifted_position.y*shifted_position.y)
 			position = shifted_position + grapple_pos
+		if normal.y == -1.0:
+			grounded = true
 	else:
+		if new_position.y < position.y:
+			grounded = false
 		position = new_position
+	
+	if previously_grounded == false and grounded == true:
+		landed.emit()
 	
 	return !collided
 
@@ -252,7 +265,7 @@ func _physics_process_grapple(delta):
 	($Sprite2D.texture as AtlasTexture).region.position = Vector2(0,225)
 	
 	# Add the gravity.
-	if not is_on_floor():
+	if not grounded:
 		angular_velocity_to_velocity()
 		velocity.y = move_toward(velocity.y, MAX_FALL, GRAVITY * delta)
 		velocity_to_angular_velocity()
