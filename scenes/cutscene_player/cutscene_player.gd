@@ -4,7 +4,7 @@ extends Control
 @onready var cutscene_label: Label = $MarginContainer2/Label
 
 
-@export var cutscene: Cutscene = load("res://resources/cutscenes/test_cutscene.tres")
+@export var cutscene: Cutscene
 var next_segment_idx: int = 0
 var scene_transition_timer: SceneTreeTimer
 
