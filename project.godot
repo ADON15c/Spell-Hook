@@ -18,6 +18,7 @@ config/icon="uid://buxfnvo7svcq5"
 [autoload]
 
 SceneSwitcher="*res://autoloads/scene_switcher.gd"
+SaveData="*res://autoloads/save_data.gd"
 
 [display]
 
