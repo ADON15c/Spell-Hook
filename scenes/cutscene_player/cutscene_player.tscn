@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://bbcb5mpnp5fc"]
+[gd_scene load_steps=3 format=3 uid="uid://bbcb5mpnp5fc"]
 
 [ext_resource type="Script" uid="uid://cgsguabfewb2f" path="res://scenes/cutscene_player/cutscene_player.gd" id="1_w5sug"]
-[ext_resource type="Texture2D" uid="uid://egbf2cumngv4" path="res://resources/cutscenes/images/test_1.png" id="2_w5sug"]
 [ext_resource type="Theme" uid="uid://d0gm6sgup7dnv" path="res://resources/ui/ui_theme.tres" id="3_nstv7"]
 
 [node name="CutscenePlayer" type="Control"]
@@ -38,7 +37,6 @@ anchor_right = 0.9
 anchor_bottom = 0.9
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_w5sug")
 expand_mode = 1
 stretch_mode = 5
 
@@ -56,6 +54,10 @@ anchors_preset = -1
 anchor_top = 0.2
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 345.0
+offset_top = -101.2
+offset_right = -353.0
+offset_bottom = -46.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 1

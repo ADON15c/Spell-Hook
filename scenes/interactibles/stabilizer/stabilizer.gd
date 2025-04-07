@@ -5,6 +5,8 @@ enum State {NORMAL, FOLLOW}
 @export var stabilizer_id: String
 
 var rotation_speed: float = 1.0
+var pickup_time: float = 0.25
+var ground_time: float = 0.0
 var origin: Vector2
 var follow_body: Node2D
 var state: State
@@ -31,17 +33,16 @@ func _process(delta: float) -> void:
 			position = origin
 		State.FOLLOW:
 			position = follow_body.position + Vector2(0.0,-60.0)
-
-#func _on_area_2d_body_entered(body: Node2D):
-	
-	#if stabilizer_id not in SaveData.stabilizers_collected:
-		#SaveData.stabilizers_collected.append(stabilizer_id)
-		#SaveData.save_game()
-	#queue_free()
+			if follow_body.grounded:
+				ground_time += delta
+			else:
+				ground_time = 0.0
+			if ground_time >= pickup_time:
+				collect()
 
 func enter_follow(body: Node2D):
 	body.death.connect(stop_follow, CONNECT_ONE_SHOT)
-	body.landed.connect(collect, CONNECT_ONE_SHOT)
+	#body.landed.connect(collect, CONNECT_ONE_SHOT)
 	state = State.FOLLOW
 	follow_body = body
 	area.set_deferred("monitoring", false)

@@ -1,6 +1,6 @@
 extends Node2D
 
-var cutscene1: Cutscene = preload("res://resources/cutscenes/test_cutscene.tres")
+var cutscene1: Cutscene = preload("res://resources/cutscenes/level_1_start/level_1_start.tres")
 var level2: PackedScene = preload("res://scenes/levels/test_level/test_level.tscn")
 
 func _ready():

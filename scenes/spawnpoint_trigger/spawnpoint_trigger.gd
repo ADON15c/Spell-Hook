@@ -13,14 +13,14 @@ func _ready():
 		else:
 			parent = parent.get_parent()
 	
-	if level:	
+	if level:
 		body_entered.connect(_on_body_entered)
 		body_exited.connect(_on_body_exited)
 
 func _process(_delta: float) -> void:
 	for player in contained_players:
-		if player.is_on_floor():
-			level.spawn_point = spawnpoint.position
+		if player.grounded:
+			level.spawn_point = to_global(spawnpoint.position)
 
 func _on_body_entered(body):
 	if body == level.player:
