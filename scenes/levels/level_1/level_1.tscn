@@ -61,7 +61,7 @@ size = Vector2(330, 240)
 script = ExtResource("1_x3ahk")
 player_scene = ExtResource("2_5o1mp")
 rooms_node = NodePath("Rooms")
-starting_room = NodePath("Rooms/Room14")
+starting_room = NodePath("Rooms/Room1")
 metadata/_custom_type_script = "uid://dv42nxkrm2ttd"
 
 [node name="BackgroundTiles" type="TileMapLayer" parent="."]
@@ -280,6 +280,7 @@ debug_color = Color(0, 0.595, 0.7, 0)
 position = Vector2(18150, -2850)
 
 [node name="SceneswitchTrigger" parent="Rooms/Room14" instance=ExtResource("8_58uyj")]
+cutscene = 1
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Rooms/Room14/SceneswitchTrigger"]
 position = Vector2(18585, -2940)
