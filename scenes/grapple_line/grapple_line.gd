@@ -1,8 +1,6 @@
 @tool
 extends Line2D
 
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
-
 @export var end_point: Vector2 = Vector2(0.0,0.0):
 	set(val):
 		end_point = val

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dffyyg5cisxxc"]
+[gd_scene load_steps=4 format=3 uid="uid://dffyyg5cisxxc"]
 
 [ext_resource type="Script" uid="uid://bsj816gw2rkqg" path="res://scenes/grapple_line/grapple_line.gd" id="1_hme24"]
 [ext_resource type="Shader" uid="uid://d0l6dtfm713ul" path="res://scenes/grapple_line/grapple_line.gdshader" id="1_od1nq"]
@@ -9,50 +9,9 @@ shader_parameter/start = 0.0
 shader_parameter/end = 0.0
 shader_parameter/tapper_distance = 0.5
 
-[sub_resource type="Animation" id="Animation_od1nq"]
-resource_name = "grapple_start"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:length")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.0, 1.0]
-}
-
-[sub_resource type="Animation" id="Animation_byrxd"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:length")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [1.0]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_61wif"]
-_data = {
-&"RESET": SubResource("Animation_byrxd"),
-&"grapple_start": SubResource("Animation_od1nq")
-}
-
 [node name="GrappleLine" type="Line2D"]
 material = SubResource("ShaderMaterial_byrxd")
 points = PackedVector2Array(0, 0, 0, 0)
 width = 50.0
 texture_mode = 1
 script = ExtResource("1_hme24")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_61wif")
-}
