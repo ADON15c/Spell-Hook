@@ -13,7 +13,7 @@ config_version=5
 config/name="Spell Hook"
 run/main_scene="uid://c83garww7dfog"
 config/features=PackedStringArray("4.4", "Forward Plus")
-config/icon="uid://buxfnvo7svcq5"
+config/icon="uid://c3180osb7emgq"
 
 [autoload]
 
