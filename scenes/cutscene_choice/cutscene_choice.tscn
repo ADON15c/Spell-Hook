@@ -1,0 +1,128 @@
+[gd_scene load_steps=4 format=3 uid="uid://imn2l5o54aji"]
+
+[ext_resource type="Texture2D" uid="uid://bhi2o2rr804i8" path="res://resources/cutscenes/game_end/images/choice.png" id="1_8gdrr"]
+[ext_resource type="Theme" uid="uid://d0gm6sgup7dnv" path="res://resources/ui/ui_theme.tres" id="1_fqabf"]
+[ext_resource type="Script" uid="uid://b4r8vsip34bvl" path="res://scenes/cutscene_choice/cutscene_choice.gd" id="1_owxly"]
+
+[node name="CutsceneChoice" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_owxly")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MarginContainer" type="Control" parent="."]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_8gdrr")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MarginContainer2" type="Control" parent="."]
+layout_mode = 1
+anchor_top = 0.8
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="MarginContainer2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.2
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 345.0
+offset_top = -101.2
+offset_right = -353.0
+offset_bottom = -180.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+theme = ExtResource("1_fqabf")
+text = "What will you do?"
+horizontal_alignment = 1
+autowrap_mode = 3
+clip_text = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.8
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("1_fqabf")
+
+[node name="Control" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PrayButton" type="Button" parent="HBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+text = "Pray it works"
+
+[node name="Control2" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StopButton" type="Button" parent="HBoxContainer/Control2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+text = "Stop the spell"
+
+[node name="Control3" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StableButton" type="Button" parent="HBoxContainer/Control3"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+text = "Use Stabilizer (%s/6)"
