@@ -1,20 +1,36 @@
-[gd_resource type="Resource" script_class="Cutscene" load_steps=6 format=3 uid="uid://pkcpq0ums7tu"]
+[gd_resource type="Resource" script_class="Cutscene" load_steps=10 format=3 uid="uid://pkcpq0ums7tu"]
 
 [ext_resource type="PackedScene" uid="uid://c83garww7dfog" path="res://scenes/main_menu/main_menu.tscn" id="1_ivf63"]
-[ext_resource type="Script" uid="uid://cv2vn5jpcbxy1" path="res://resources/cutscene.gd" id="1_yuhet"]
-[ext_resource type="Script" uid="uid://cs2cmn2yq3e12" path="res://resources/cutscene_segment.gd" id="2_ivf63"]
-[ext_resource type="Texture2D" uid="uid://dtkagq2dol6hk" path="res://icon.svg" id="4_fr8i3"]
+[ext_resource type="Script" path="res://resources/cutscene.gd" id="1_yuhet"]
+[ext_resource type="Script" path="res://resources/cutscene_segment.gd" id="2_ivf63"]
+[ext_resource type="Texture2D" uid="uid://cwn32b4lcujiv" path="res://resources/cutscenes/game_end/images/bad_1.png" id="4_5c6cl"]
+[ext_resource type="Texture2D" uid="uid://sc2vkf6hopxr" path="res://resources/cutscenes/game_end/images/planet.png" id="5_xkofc"]
+[ext_resource type="Texture2D" uid="uid://uddbvcl3erqs" path="res://resources/cutscenes/game_end/images/bad_2.png" id="6_yeilm"]
+
+[sub_resource type="Resource" id="Resource_5q0p1"]
+script = ExtResource("2_ivf63")
+image = ExtResource("4_5c6cl")
+duration = 3.0
+text = ""
+metadata/_custom_type_script = "uid://cs2cmn2yq3e12"
 
 [sub_resource type="Resource" id="Resource_dk2m8"]
 script = ExtResource("2_ivf63")
-image = ExtResource("4_fr8i3")
+image = ExtResource("5_xkofc")
+duration = 2.0
+text = ""
+metadata/_custom_type_script = "uid://cs2cmn2yq3e12"
+
+[sub_resource type="Resource" id="Resource_h6dfj"]
+script = ExtResource("2_ivf63")
+image = ExtResource("6_yeilm")
 duration = -1.0
-text = "Bad"
+text = "You failed your planet."
 metadata/_custom_type_script = "uid://cs2cmn2yq3e12"
 
 [resource]
 script = ExtResource("1_yuhet")
-segments = Array[ExtResource("2_ivf63")]([SubResource("Resource_dk2m8")])
+segments = Array[ExtResource("2_ivf63")]([SubResource("Resource_5q0p1"), SubResource("Resource_dk2m8"), SubResource("Resource_h6dfj")])
 next_scene = ExtResource("1_ivf63")
 scene_type = 0
 metadata/_custom_type_script = "uid://cv2vn5jpcbxy1"

@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="Cutscene" load_steps=18 format=3 uid="uid://bh5m3qubhvg8p"]
 
-[ext_resource type="Script" uid="uid://cv2vn5jpcbxy1" path="res://resources/cutscene.gd" id="1_45cxg"]
+[ext_resource type="Script" path="res://resources/cutscene.gd" id="1_45cxg"]
 [ext_resource type="PackedScene" uid="uid://cobqs3tw7k863" path="res://scenes/levels/level_1/level_1.tscn" id="1_iwie8"]
-[ext_resource type="Script" uid="uid://cs2cmn2yq3e12" path="res://resources/cutscene_segment.gd" id="2_62bid"]
+[ext_resource type="Script" path="res://resources/cutscene_segment.gd" id="2_62bid"]
 [ext_resource type="Texture2D" uid="uid://bvhviofuibdcq" path="res://resources/cutscenes/level_1_start/story_1.png" id="4_csr0q"]
 [ext_resource type="Texture2D" uid="uid://4yxpjx65q7df" path="res://resources/cutscenes/level_1_start/story_2.png" id="5_wegge"]
 [ext_resource type="Texture2D" uid="uid://vtk8vkba42uk" path="res://resources/cutscenes/level_1_start/story_3.png" id="6_0gb7x"]
@@ -83,4 +83,3 @@ script = ExtResource("1_45cxg")
 segments = Array[ExtResource("2_62bid")]([SubResource("Resource_wegge"), SubResource("Resource_csr0q"), SubResource("Resource_sswro"), SubResource("Resource_0gb7x"), SubResource("Resource_2xmgb"), SubResource("Resource_ylreh"), SubResource("Resource_ippr1"), SubResource("Resource_tumju"), SubResource("Resource_e3xop"), SubResource("Resource_sp0am")])
 next_scene = ExtResource("1_iwie8")
 scene_type = 1
-metadata/_custom_type_script = "uid://cv2vn5jpcbxy1"

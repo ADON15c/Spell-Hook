@@ -1,20 +1,36 @@
-[gd_resource type="Resource" script_class="Cutscene" load_steps=6 format=3 uid="uid://eb1rn03bq5n6"]
+[gd_resource type="Resource" script_class="Cutscene" load_steps=10 format=3 uid="uid://eb1rn03bq5n6"]
 
-[ext_resource type="Script" uid="uid://cv2vn5jpcbxy1" path="res://resources/cutscene.gd" id="1_1vc6b"]
+[ext_resource type="Script" path="res://resources/cutscene.gd" id="1_1vc6b"]
 [ext_resource type="PackedScene" uid="uid://imn2l5o54aji" path="res://scenes/cutscene_choice/cutscene_choice.tscn" id="1_r1ili"]
-[ext_resource type="Script" uid="uid://cs2cmn2yq3e12" path="res://resources/cutscene_segment.gd" id="2_5evss"]
-[ext_resource type="Texture2D" uid="uid://buxfnvo7svcq5" path="res://temp-icon.png" id="4_rsgj7"]
+[ext_resource type="Script" path="res://resources/cutscene_segment.gd" id="2_5evss"]
+[ext_resource type="Texture2D" uid="uid://bxvoxsoc7us85" path="res://resources/cutscenes/game_end/images/story_5.png" id="4_dmxu6"]
+[ext_resource type="Texture2D" uid="uid://c1m27jsgasl7q" path="res://resources/cutscenes/game_end/images/story_6.png" id="5_glcbg"]
+[ext_resource type="Texture2D" uid="uid://ba4kmuauqpbsd" path="res://resources/cutscenes/game_end/images/story_7.png" id="6_q0aa3"]
 
 [sub_resource type="Resource" id="Resource_dmxu6"]
 script = ExtResource("2_5evss")
-image = ExtResource("4_rsgj7")
-duration = -1.0
-text = "You win!"
+image = ExtResource("4_dmxu6")
+duration = 3.0
+text = "There's The Wizard!"
+metadata/_custom_type_script = "uid://cs2cmn2yq3e12"
+
+[sub_resource type="Resource" id="Resource_2hhrb"]
+script = ExtResource("2_5evss")
+image = ExtResource("5_glcbg")
+duration = 4.0
+text = "The spell is growing in power!"
+metadata/_custom_type_script = "uid://cs2cmn2yq3e12"
+
+[sub_resource type="Resource" id="Resource_yu28w"]
+script = ExtResource("2_5evss")
+image = ExtResource("6_q0aa3")
+duration = 4.0
+text = "Do something before it's too late! Make a choice!"
 metadata/_custom_type_script = "uid://cs2cmn2yq3e12"
 
 [resource]
 script = ExtResource("1_1vc6b")
-segments = Array[ExtResource("2_5evss")]([SubResource("Resource_dmxu6")])
+segments = Array[ExtResource("2_5evss")]([SubResource("Resource_dmxu6"), SubResource("Resource_2hhrb"), SubResource("Resource_yu28w")])
 next_scene = ExtResource("1_r1ili")
 scene_type = 0
 metadata/_custom_type_script = "uid://cv2vn5jpcbxy1"

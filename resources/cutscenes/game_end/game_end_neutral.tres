@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="Cutscene" load_steps=10 format=3 uid="uid://b4t0xhbb4mvea"]
+
+[ext_resource type="PackedScene" uid="uid://c83garww7dfog" path="res://scenes/main_menu/main_menu.tscn" id="1_mbalh"]
+[ext_resource type="Script" path="res://resources/cutscene.gd" id="2_gkcw3"]
+[ext_resource type="Script" path="res://resources/cutscene_segment.gd" id="3_hj3n3"]
+[ext_resource type="Texture2D" uid="uid://dv01mj5dql7dg" path="res://resources/cutscenes/game_end/images/good_1.png" id="4_mbalh"]
+[ext_resource type="Texture2D" uid="uid://sc2vkf6hopxr" path="res://resources/cutscenes/game_end/images/planet.png" id="5_sdg76"]
+[ext_resource type="Texture2D" uid="uid://cetdhwyw74x1q" path="res://resources/cutscenes/game_end/images/good_2.png" id="6_gkcw3"]
+
+[sub_resource type="Resource" id="Resource_5q0p1"]
+script = ExtResource("3_hj3n3")
+image = ExtResource("4_mbalh")
+duration = 3.0
+text = ""
+metadata/_custom_type_script = "uid://cs2cmn2yq3e12"
+
+[sub_resource type="Resource" id="Resource_dk2m8"]
+script = ExtResource("3_hj3n3")
+image = ExtResource("5_sdg76")
+duration = 2.0
+text = ""
+metadata/_custom_type_script = "uid://cs2cmn2yq3e12"
+
+[sub_resource type="Resource" id="Resource_h6dfj"]
+script = ExtResource("3_hj3n3")
+image = ExtResource("6_gkcw3")
+duration = -1.0
+text = "The Wizard's spell worked. People died, but the future will live on forever.
+
+And The Wizard got away..."
+metadata/_custom_type_script = "uid://cs2cmn2yq3e12"
+
+[resource]
+script = ExtResource("2_gkcw3")
+segments = Array[ExtResource("3_hj3n3")]([SubResource("Resource_5q0p1"), SubResource("Resource_dk2m8"), SubResource("Resource_h6dfj")])
+next_scene = ExtResource("1_mbalh")
+scene_type = 0
+metadata/_custom_type_script = "uid://cv2vn5jpcbxy1"

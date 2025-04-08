@@ -1,15 +1,16 @@
 [gd_resource type="Resource" script_class="Cutscene" load_steps=6 format=3 uid="uid://cfxrm76boc4r"]
 
-[ext_resource type="Script" uid="uid://cv2vn5jpcbxy1" path="res://resources/cutscene.gd" id="1_3r0ss"]
+[ext_resource type="Script" path="res://resources/cutscene.gd" id="1_3r0ss"]
 [ext_resource type="PackedScene" uid="uid://bieqyj1sigyg" path="res://scenes/levels/level_2/level_2.tscn" id="1_gpgt3"]
-[ext_resource type="Script" uid="uid://cs2cmn2yq3e12" path="res://resources/cutscene_segment.gd" id="2_unjsr"]
-[ext_resource type="Texture2D" uid="uid://dtkagq2dol6hk" path="res://icon.svg" id="4_q28pj"]
+[ext_resource type="Script" path="res://resources/cutscene_segment.gd" id="2_unjsr"]
+[ext_resource type="Texture2D" uid="uid://ch30csryj5etp" path="res://resources/cutscenes/level_2_start/level2start.png" id="4_gpgt3"]
 
 [sub_resource type="Resource" id="Resource_u3nwg"]
 script = ExtResource("2_unjsr")
-image = ExtResource("4_q28pj")
+image = ExtResource("4_gpgt3")
 duration = -1.0
-text = "Go to level 2!"
+text = "The Wizard is starting his spell!
+His tower is starting to crumble. You must hurry!"
 metadata/_custom_type_script = "uid://cs2cmn2yq3e12"
 
 [resource]
