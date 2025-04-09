@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="Cutscene" load_steps=10 format=3 uid="uid://eb1rn03bq5n6"]
 
-[ext_resource type="Script" path="res://resources/cutscene.gd" id="1_1vc6b"]
+[ext_resource type="Script" uid="uid://cv2vn5jpcbxy1" path="res://resources/cutscene.gd" id="1_1vc6b"]
 [ext_resource type="PackedScene" uid="uid://imn2l5o54aji" path="res://scenes/cutscene_choice/cutscene_choice.tscn" id="1_r1ili"]
-[ext_resource type="Script" path="res://resources/cutscene_segment.gd" id="2_5evss"]
+[ext_resource type="Script" uid="uid://cs2cmn2yq3e12" path="res://resources/cutscene_segment.gd" id="2_5evss"]
 [ext_resource type="Texture2D" uid="uid://bxvoxsoc7us85" path="res://resources/cutscenes/game_end/images/story_5.png" id="4_dmxu6"]
 [ext_resource type="Texture2D" uid="uid://c1m27jsgasl7q" path="res://resources/cutscenes/game_end/images/story_6.png" id="5_glcbg"]
 [ext_resource type="Texture2D" uid="uid://ba4kmuauqpbsd" path="res://resources/cutscenes/game_end/images/story_7.png" id="6_q0aa3"]
