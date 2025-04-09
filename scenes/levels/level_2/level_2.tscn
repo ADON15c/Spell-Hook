@@ -110,7 +110,7 @@ shape = SubResource("RectangleShape2D_0xq57")
 debug_color = Color(0, 0.6, 0.701961, 0)
 
 [node name="R3Spawn" type="Marker2D" parent="Rooms/Room3"]
-position = Vector2(510, 1702)
+position = Vector2(-30, 1590)
 
 [node name="Rotator" parent="Rooms/Room3" instance=ExtResource("5_xv2cf")]
 position = Vector2(210, 1350)

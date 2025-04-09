@@ -1,8 +1,8 @@
-[gd_resource type="Resource" script_class="Cutscene" load_steps=10 format=3 uid="uid://b4t0xhbb4mvea"]
+[gd_resource type="Resource" script_class="Cutscene" load_steps=10 format=3 uid="uid://ku1ifvyxyye8"]
 
 [ext_resource type="PackedScene" uid="uid://c83garww7dfog" path="res://scenes/main_menu/main_menu.tscn" id="1_mbalh"]
-[ext_resource type="Script" path="res://resources/cutscene.gd" id="2_gkcw3"]
-[ext_resource type="Script" path="res://resources/cutscene_segment.gd" id="3_hj3n3"]
+[ext_resource type="Script" uid="uid://cv2vn5jpcbxy1" path="res://resources/cutscene.gd" id="2_gkcw3"]
+[ext_resource type="Script" uid="uid://cs2cmn2yq3e12" path="res://resources/cutscene_segment.gd" id="3_hj3n3"]
 [ext_resource type="Texture2D" uid="uid://dv01mj5dql7dg" path="res://resources/cutscenes/game_end/images/good_1.png" id="4_mbalh"]
 [ext_resource type="Texture2D" uid="uid://sc2vkf6hopxr" path="res://resources/cutscenes/game_end/images/planet.png" id="5_sdg76"]
 [ext_resource type="Texture2D" uid="uid://cetdhwyw74x1q" path="res://resources/cutscenes/game_end/images/good_2.png" id="6_gkcw3"]
