@@ -1,5 +1,5 @@
 # Spell Hook
-A game in development by Anthony Clark and Nicholas Wright for a university game design class (CTCH312)
+A 2D Precision Platformer featuring a magic grapple hook by Anthony Clark and Nicholas Wright, Developed for a university game design class (CTCH312)
 
 ## Controls
 Keyboard:
